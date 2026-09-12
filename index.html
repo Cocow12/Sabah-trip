@@ -42,14 +42,14 @@
     background:var(--bg); border-bottom:1px solid var(--line);
     padding:14px 20px;
   }
-  .topbar-row{max-width:760px; margin:0 auto; display:flex; align-items:center; justify-content:space-between;}
+  .topbar-row{max-width:760px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;}
   .brand{font-size:15px; font-weight:600; letter-spacing:.02em;}
   .brand .sub{display:block; font-family:'Helvetica Neue',Arial,sans-serif; font-size:11px; color:var(--accent-soft); letter-spacing:.08em; margin-top:2px;}
   .tabs{display:flex; gap:6px;}
   .tab-btn{
-    font-family:'Helvetica Neue',Arial,sans-serif; font-size:13px;
+    font-family:'Helvetica Neue',Arial,sans-serif; font-size:12.5px; white-space:nowrap;
     background:none; border:1px solid var(--line); color:var(--text-dim);
-    padding:7px 14px; border-radius:999px; cursor:pointer;
+    padding:7px 12px; border-radius:999px; cursor:pointer;
   }
   .tab-btn.active{background:var(--accent); color:var(--accent-ink); border-color:var(--accent); font-weight:600;}
   .theme-toggle{
@@ -469,41 +469,46 @@ const TIPS = [
   { h: '插座', b: '马来西亚是英式三孔插座 (Type G)，充电宝务必带够，山上不一定有插座。' }
 ];
 
-/* =================== 主题：日夜自动切换 =================== */
+/* =================== 主题：日夜自动切换（不用 localStorage，避免部分浏览器隐私模式下报错） =================== */
+let manualTheme = null;
 function applyTheme(){
-  const hour = new Date().getHours();
-  const auto = (hour >= 6 && hour < 18) ? 'day' : 'night';
-  const manual = localStorage.getItem('themeOverride');
-  document.body.className = manual || auto;
+  try{
+    const hour = new Date().getHours();
+    const auto = (hour >= 6 && hour < 18) ? 'day' : 'night';
+    document.body.className = manualTheme || auto;
+  }catch(e){ console.error('theme error', e); }
 }
-document.getElementById('themeToggle').addEventListener('click', () => {
-  const current = document.body.className;
-  const next = current === 'night' ? 'day' : 'night';
-  localStorage.setItem('themeOverride', next);
-  document.body.className = next;
-});
+try{
+  document.getElementById('themeToggle').addEventListener('click', () => {
+    const current = document.body.className;
+    manualTheme = current === 'night' ? 'day' : 'night';
+    document.body.className = manualTheme;
+  });
+}catch(e){ console.error('theme toggle bind error', e); }
 applyTheme();
 setInterval(applyTheme, 60000);
 
 /* =================== 倒计时 =================== */
 function updateCountdown(){
-  const now = new Date();
-  const next = EVENTS.find(e => new Date(e.t) > now);
-  if(!next){
-    document.getElementById('cd-title').textContent = '旅程已经结束啦 🎉';
-    ['cd-d','cd-h','cd-m','cd-s'].forEach(id => document.getElementById(id).textContent = '0');
-    return;
-  }
-  document.getElementById('cd-title').textContent = next.label;
-  const diff = new Date(next.t) - now;
-  const d = Math.floor(diff / 86400000);
-  const h = Math.floor((diff % 86400000) / 3600000);
-  const m = Math.floor((diff % 3600000) / 60000);
-  const s = Math.floor((diff % 60000) / 1000);
-  document.getElementById('cd-d').textContent = d;
-  document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
-  document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
-  document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+  try{
+    const now = new Date();
+    const next = EVENTS.find(e => new Date(e.t) > now);
+    if(!next){
+      document.getElementById('cd-title').textContent = '旅程已经结束啦 🎉';
+      ['cd-d','cd-h','cd-m','cd-s'].forEach(id => document.getElementById(id).textContent = '0');
+      return;
+    }
+    document.getElementById('cd-title').textContent = next.label;
+    const diff = new Date(next.t) - now;
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-d').textContent = d;
+    document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+    document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+  }catch(e){ console.error('countdown error', e); }
 }
 updateCountdown();
 setInterval(updateCountdown, 1000);
@@ -518,58 +523,64 @@ function gmapsDir(stops){
   return url;
 }
 
-const bookingsEl = document.getElementById('bookings');
-BOOKINGS.forEach(b => {
-  const div = document.createElement('div');
-  div.className = 'booking-card';
-  const tagClass = b.status === 'ok' ? 'ok' : (b.status === 'warn' ? 'warn' : 'tbc');
-  div.innerHTML = `
-    <div class="kind sans">${b.kind}</div>
-    <h3>${b.title}<span class="tag ${tagClass} sans">${b.statusLabel}</span></h3>
-    ${b.rows.map(r => `<div class="row sans">${r}</div>`).join('')}
-    ${b.map ? `<a class="maplink" href="${gmaps(b.map)}" target="_blank">在 Google 地图打开 →</a>` : ''}
-  `;
-  bookingsEl.appendChild(div);
-});
+try{
+  const bookingsEl = document.getElementById('bookings');
+  BOOKINGS.forEach(b => {
+    const div = document.createElement('div');
+    div.className = 'booking-card';
+    const tagClass = b.status === 'ok' ? 'ok' : (b.status === 'warn' ? 'warn' : 'tbc');
+    div.innerHTML = `
+      <div class="kind sans">${b.kind}</div>
+      <h3>${b.title}<span class="tag ${tagClass} sans">${b.statusLabel}</span></h3>
+      ${b.rows.map(r => `<div class="row sans">${r}</div>`).join('')}
+      ${b.map ? `<a class="maplink" href="${gmaps(b.map)}" target="_blank">在 Google 地图打开 →</a>` : ''}
+    `;
+    bookingsEl.appendChild(div);
+  });
+}catch(e){ console.error('bookings render error', e); }
 
 /* =================== 渲染：逐日行程 =================== */
-const daysEl = document.getElementById('days');
-DAYS.forEach((day, idx) => {
-  const div = document.createElement('div');
-  div.className = 'day';
-  const itemsHtml = day.items.map(it => {
-    let content = it.c;
-    if(it.link){
-      content = `${it.c} <a href="${gmaps(it.link)}" target="_blank">${it.linkLabel || it.link}</a>${it.after || ''}`;
-    }
-    return `<div class="timeline-item"><div class="t sans">${it.t}</div><div class="c">${content}</div></div>`;
-  }).join('');
-  const navHtml = day.navStops.length
-    ? `<div class="day-nav"><a href="${gmapsDir(day.navStops)}" target="_blank">📍 打开今日多点导航 →</a></div>`
-    : '';
-  div.innerHTML = `
-    <div class="day-head">
-      <div class="d-info"><div class="d-date sans">${day.date}</div><h3>${day.title}</h3></div>
-      <div class="chev">▾</div>
-    </div>
-    <div class="day-body">${itemsHtml}${navHtml}</div>
-  `;
-  div.querySelector('.day-head').addEventListener('click', () => div.classList.toggle('open'));
-  if(idx === 0) div.classList.add('open');
-  daysEl.appendChild(div);
-});
+try{
+  const daysEl = document.getElementById('days');
+  DAYS.forEach((day, idx) => {
+    const div = document.createElement('div');
+    div.className = 'day';
+    const itemsHtml = day.items.map(it => {
+      let content = it.c;
+      if(it.link){
+        content = `${it.c} <a href="${gmaps(it.link)}" target="_blank">${it.linkLabel || it.link}</a>${it.after || ''}`;
+      }
+      return `<div class="timeline-item"><div class="t sans">${it.t}</div><div class="c">${content}</div></div>`;
+    }).join('');
+    const navHtml = day.navStops.length
+      ? `<div class="day-nav"><a href="${gmapsDir(day.navStops)}" target="_blank">📍 打开今日多点导航 →</a></div>`
+      : '';
+    div.innerHTML = `
+      <div class="day-head">
+        <div class="d-info"><div class="d-date sans">${day.date}</div><h3>${day.title}</h3></div>
+        <div class="chev">▾</div>
+      </div>
+      <div class="day-body">${itemsHtml}${navHtml}</div>
+    `;
+    div.querySelector('.day-head').addEventListener('click', () => div.classList.toggle('open'));
+    if(idx === 0) div.classList.add('open');
+    daysEl.appendChild(div);
+  });
+}catch(e){ console.error('days render error', e); }
 
 /* =================== 渲染：待办 + 贴士 =================== */
-const todoEl = document.getElementById('todo');
-TODO.forEach(t => { const li = document.createElement('li'); li.textContent = t; todoEl.appendChild(li); });
+try{
+  const todoEl = document.getElementById('todo');
+  TODO.forEach(t => { const li = document.createElement('li'); li.textContent = t; todoEl.appendChild(li); });
 
-const tipsEl = document.getElementById('tips');
-TIPS.forEach(t => {
-  const div = document.createElement('div');
-  div.className = 'tip-item';
-  div.innerHTML = `<b>${t.h}：</b>${t.b}`;
-  tipsEl.appendChild(div);
-});
+  const tipsEl = document.getElementById('tips');
+  TIPS.forEach(t => {
+    const div = document.createElement('div');
+    div.className = 'tip-item';
+    div.innerHTML = `<b>${t.h}：</b>${t.b}`;
+    tipsEl.appendChild(div);
+  });
+}catch(e){ console.error('todo/tips render error', e); }
 
 /* =================== Tabs =================== */
 document.querySelectorAll('.tab-btn').forEach(btn => {
