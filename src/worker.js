@@ -45,15 +45,27 @@ async function handlePost(request, env) {
       ) {
         return json({ error: "missing or invalid fields" }, 400);
       }
+      const paid = {};
+      body.participants.forEach((p) => {
+        if (p !== body.payer) paid[p] = false;
+      });
       data.expenses.push({
         id: crypto.randomUUID(),
         desc: String(body.desc).slice(0, 200),
+        note: String(body.note || "").slice(0, 300),
         amount,
-        includesTax: !!body.includesTax,
         payer: body.payer,
         participants: body.participants,
+        paid,
         createdAt: Date.now(),
       });
+      break;
+    }
+    case "setPaid": {
+      const exp = data.expenses.find((e) => e.id === body.id);
+      if (!exp) return json({ error: "expense not found" }, 404);
+      if (!exp.paid) exp.paid = {};
+      exp.paid[body.person] = !!body.paid;
       break;
     }
     case "deleteExpense": {
@@ -71,6 +83,7 @@ async function handlePost(request, env) {
       data.members = data.members.filter((m) => m !== body.name);
       data.expenses.forEach((e) => {
         e.participants = e.participants.filter((p) => p !== body.name);
+        if (e.paid) delete e.paid[body.name];
       });
       break;
     }
