@@ -162,12 +162,23 @@
   }
   .btn.secondary{background:none; border:1px solid var(--line); color:var(--text-dim); font-weight:400;}
   .expense-item{
-    display:flex; justify-content:space-between; align-items:flex-start;
     background:var(--bg-elev); border:1px solid var(--line); border-radius:8px;
     padding:12px 14px; margin-bottom:8px;
   }
+  .expense-item .top-row{display:flex; justify-content:space-between; align-items:flex-start;}
   .expense-item .meta{font-family:'Helvetica Neue',Arial,sans-serif; font-size:12px; color:var(--text-dim); margin-top:3px;}
+  .expense-item .note{font-family:'Helvetica Neue',Arial,sans-serif; font-size:12.5px; color:var(--text-dim); margin-top:4px; font-style:italic;}
   .expense-item .amt{font-family:'Helvetica Neue',Arial,sans-serif; font-weight:700; font-size:15px;}
+  .paid-tracker{margin-top:12px; padding-top:10px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px;}
+  .paid-pill{
+    font-family:'Helvetica Neue',Arial,sans-serif; font-size:12.5px; cursor:pointer; user-select:none;
+    border:1px solid var(--line); border-radius:999px; padding:6px 12px;
+    display:flex; align-items:center; gap:6px; color:var(--text-dim);
+  }
+  .paid-pill .box{width:14px; height:14px; border-radius:4px; border:1px solid var(--text-dim); display:inline-block; flex-shrink:0;}
+  .paid-pill.done{background:var(--ok); border-color:var(--ok); color:#0d1a10; font-weight:600;}
+  .paid-pill.done .box{background:var(--accent-ink); border-color:var(--accent-ink);}
+  .settled-tag{font-family:'Helvetica Neue',Arial,sans-serif; font-size:11px; background:var(--ok); color:#0d1a10; padding:2px 9px; border-radius:3px; font-weight:600;}
   .del-btn{background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:16px; padding:0 0 0 10px;}
   .member-row{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;}
   .member-chip{
@@ -283,7 +294,6 @@
     <div class="ledger-summary" id="ledgerSummary">
       <div class="total sans" id="ledgerTotal">–</div>
       <div class="sub">累计已记账金额</div>
-      <div id="settlements"></div>
     </div>
 
     <h2 class="section-title">成员</h2>
@@ -298,6 +308,10 @@
       <div class="field">
         <label>这笔花的是什么</label>
         <input type="text" id="expDesc" placeholder="例如：晚餐、租车、门票" required>
+      </div>
+      <div class="field">
+        <label>备注（选填）</label>
+        <input type="text" id="expNote" placeholder="例如：Sutera Sanctuary 附近那家海鲜档">
       </div>
       <div class="field">
         <label>金额 (MYR，已含税/服务费请直接填总额)</label>
@@ -653,58 +667,45 @@ function renderLedger(){
     const div = document.createElement('div');
     div.className = 'expense-item';
     const each = (e.amount / e.participants.length).toFixed(2);
+    const owers = e.participants.filter(p => p !== e.payer);
+    const paidMap = e.paid || {};
+    const allSettled = owers.length > 0 && owers.every(p => paidMap[p]);
+
+    const trackerHtml = owers.length
+      ? `<div class="paid-tracker">${owers.map(p => {
+          const done = !!paidMap[p];
+          return `<div class="paid-pill${done ? ' done' : ''}" data-person="${p}"><span class="box"></span>${p} RM${each}</div>`;
+        }).join('')}</div>`
+      : '';
+
     div.innerHTML = `
-      <div>
-        <div>${e.desc}</div>
-        <div class="meta">${e.payer} 垫付 · ${e.participants.length}人平分 · 每人 RM${each}</div>
+      <div class="top-row">
+        <div>
+          <div>${e.desc}${allSettled ? '<span class="settled-tag" style="margin-left:8px;">已结清</span>' : ''}</div>
+          <div class="meta">${e.payer} 垫付 · ${e.participants.length}人平分 · 每人 RM${each}</div>
+          ${e.note ? `<div class="note">${e.note}</div>` : ''}
+        </div>
+        <div style="text-align:right; display:flex; align-items:center;">
+          <div class="amt">RM${e.amount.toFixed(2)}</div>
+          <button class="del-btn" title="删除">🗑</button>
+        </div>
       </div>
-      <div style="text-align:right; display:flex; align-items:center;">
-        <div class="amt">RM${e.amount.toFixed(2)}</div>
-        <button class="del-btn" title="删除">🗑</button>
-      </div>
+      ${trackerHtml}
     `;
     div.querySelector('.del-btn').addEventListener('click', () => deleteExpense(e.id));
+    div.querySelectorAll('.paid-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        const person = pill.dataset.person;
+        const current = !!paidMap[person];
+        togglePaid(e.id, person, !current);
+      });
+    });
     listEl.appendChild(div);
   });
 
-  // totals + settlement
+  // total
   const total = ledgerData.expenses.reduce((s,e) => s + e.amount, 0);
   document.getElementById('ledgerTotal').textContent = 'RM ' + total.toFixed(2);
-
-  const balance = {};
-  ledgerData.members.forEach(m => balance[m] = 0);
-  ledgerData.expenses.forEach(e => {
-    const share = e.amount / e.participants.length;
-    balance[e.payer] = (balance[e.payer] || 0) + e.amount;
-    e.participants.forEach(p => { balance[p] = (balance[p] || 0) - share; });
-  });
-
-  const settleEl = document.getElementById('settlements');
-  settleEl.innerHTML = '';
-  const debtors = Object.entries(balance).filter(([,v]) => v < -0.01).map(([n,v]) => [n,-v]).sort((a,b)=>b[1]-a[1]);
-  const creditors = Object.entries(balance).filter(([,v]) => v > 0.01).sort((a,b)=>b[1]-a[1]);
-  let di = 0, ci = 0;
-  const transfers = [];
-  while(di < debtors.length && ci < creditors.length){
-    const [dName, dAmt] = debtors[di];
-    const [cName, cAmt] = creditors[ci];
-    const pay = Math.min(dAmt, cAmt);
-    transfers.push([dName, cName, pay]);
-    debtors[di][1] -= pay;
-    creditors[ci][1] -= pay;
-    if(debtors[di][1] < 0.01) di++;
-    if(creditors[ci][1] < 0.01) ci++;
-  }
-  if(transfers.length === 0){
-    settleEl.innerHTML = '<div class="sub sans">目前收支刚好打平，谁都不欠谁。</div>';
-  } else {
-    transfers.forEach(([from,to,amt]) => {
-      const row = document.createElement('div');
-      row.className = 'settle-row';
-      row.innerHTML = `<span>${from} → ${to}</span><span class="amt">RM${amt.toFixed(2)}</span>`;
-      settleEl.appendChild(row);
-    });
-  }
 }
 
 async function postAction(payload){
@@ -734,17 +735,23 @@ function removeMember(name){
 document.getElementById('addExpenseForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const desc = document.getElementById('expDesc').value.trim();
+  const note = document.getElementById('expNote').value.trim();
   const amount = parseFloat(document.getElementById('expAmount').value);
   const payer = document.getElementById('expPayer').value;
   const participants = [...selectedParticipants];
   if(!desc || !amount || !payer || participants.length === 0) return;
-  await postAction({ action:'addExpense', desc, amount, payer, participants });
+  await postAction({ action:'addExpense', desc, note, amount, payer, participants });
   document.getElementById('expDesc').value = '';
+  document.getElementById('expNote').value = '';
   document.getElementById('expAmount').value = '';
 });
 
 function deleteExpense(id){
   postAction({ action:'deleteExpense', id });
+}
+
+function togglePaid(id, person, paid){
+  postAction({ action:'setPaid', id, person, paid });
 }
 </script>
 </body>
