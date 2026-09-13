@@ -83,14 +83,29 @@
   .clr-rose{background:#f0d3d6; color:#5c2530;}
   .clr-all{background:#bfe3c0; color:#204a26;}
 
-  .icon-btns{display:flex; gap:4px; flex-shrink:0;}
-  .icon-btn{ background:none; border:1px solid var(--line); color:var(--text-dim); border-radius:6px; width:28px; height:28px; cursor:pointer; font-size:13px; display:flex; align-items:center; justify-content:center; }
+  .icon-btns{display:flex; gap:3px; flex-shrink:0; align-items:flex-start;}
+  .icon-btn{ background:none; border:1px solid var(--line); color:var(--text-dim); border-radius:6px; width:24px; height:24px; cursor:pointer; font-size:12px; display:flex; align-items:center; justify-content:center; padding:0; }
 
   .day-card{ background:var(--bg-elev); border:1px solid var(--line); border-radius:var(--radius); margin-bottom:12px; overflow:hidden; }
   .day-card .day-head{ padding:14px 16px; display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+  .day-card .day-head-main{cursor:pointer; flex:1;}
   .day-card .day-head h3{margin:2px 0 6px; font-size:17px;}
   .day-card .d-date{font-family:'Helvetica Neue',Arial,sans-serif; font-size:11.5px; color:var(--accent-soft);}
-  .day-card .day-body{padding:0 16px 16px;}
+  .day-card .chev{font-size:13px; color:var(--text-dim); display:inline-block; transition:transform .2s;}
+  .day-card.open .chev{transform:rotate(180deg);}
+  .day-card .day-body{display:none; padding:0 16px 16px;}
+  .day-card.open .day-body{display:block;}
+  .maplink{font-family:'Helvetica Neue',Arial,sans-serif; font-size:12px; color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent); margin-left:4px;}
+  .more-menu{position:relative;}
+  .more-menu .menu-dropdown{
+    position:absolute; right:0; top:30px; background:var(--bg-elev2); border:1px solid var(--line); border-radius:8px;
+    padding:6px; display:none; flex-direction:column; gap:2px; z-index:10; min-width:96px; box-shadow:0 4px 14px rgba(0,0,0,0.2);
+  }
+  .more-menu.open .menu-dropdown{display:flex;}
+  .more-menu .menu-dropdown button{
+    background:none; border:none; color:var(--text); text-align:left; padding:7px 8px;
+    font-family:'Helvetica Neue',Arial,sans-serif; font-size:13px; cursor:pointer; border-radius:6px; white-space:nowrap;
+  }
   .item-row{display:flex; gap:10px; padding:9px 0; border-top:1px solid var(--line); align-items:flex-start;}
   .item-row:first-child{border-top:none;}
   .item-row .t{width:52px; flex-shrink:0; font-family:'Helvetica Neue',Arial,sans-serif; font-size:12px; color:var(--accent-soft); padding-top:2px;}
@@ -110,6 +125,7 @@
   .btn{ font-family:'Helvetica Neue',Arial,sans-serif; font-size:14px; font-weight:600; background:var(--accent); color:var(--accent-ink); border:none; border-radius:8px; padding:11px 18px; cursor:pointer; width:100%; }
   .btn.secondary{background:none; border:1px solid var(--line); color:var(--text-dim); font-weight:400;}
   .btn.small{width:auto; padding:8px 14px; font-size:13px;}
+  .btn.secondary.sel{background:var(--accent); color:var(--accent-ink); border-color:var(--accent); font-weight:600;}
   .add-toggle{margin:10px 0 22px;}
 
   .member-row{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;}
@@ -120,13 +136,15 @@
 
   .prep-cat{background:var(--bg-elev); border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px; margin-bottom:14px;}
   .prep-cat .cat-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;}
-  .prep-item{border-top:1px solid var(--line); padding:10px 0;}
-  .prep-item:first-child{border-top:none;}
-  .prep-item .txt{font-size:15px;}
-  .prep-item .note{font-family:'Helvetica Neue',Arial,sans-serif; font-size:12px; color:var(--text-dim); font-style:italic;}
-  .member-check-grid{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;}
-  .member-check{ font-family:'Helvetica Neue',Arial,sans-serif; font-size:11.5px; border:1px solid var(--line); border-radius:999px; padding:4px 10px; cursor:pointer; color:var(--text-dim); }
-  .member-check.done{background:var(--ok); border-color:var(--ok); color:#0d1a10; font-weight:600;}
+  .prep-caption{font-family:'Helvetica Neue',Arial,sans-serif; font-size:11.5px; color:var(--text-dim); margin-bottom:6px;}
+  .prep-table-wrap{overflow-x:auto; margin-bottom:4px;}
+  .prep-table{border-collapse:collapse; width:100%; font-size:13.5px;}
+  .prep-table th, .prep-table td{padding:8px 10px; border-bottom:1px solid var(--line); text-align:center;}
+  .prep-table th{font-family:'Helvetica Neue',Arial,sans-serif; font-size:11.5px; color:var(--text-dim); font-weight:600; white-space:nowrap;}
+  .prep-table td.item-cell{text-align:left; min-width:110px;}
+  .prep-table td.item-cell .note{font-family:'Helvetica Neue',Arial,sans-serif; font-size:11px; color:var(--text-dim); font-style:italic;}
+  .chk-cell{cursor:pointer; user-select:none; color:var(--text-dim); font-weight:700; min-width:34px;}
+  .chk-cell.done{color:var(--ok);}
 
   .todo-row, .tip-row{ display:flex; justify-content:space-between; align-items:center; background:var(--bg-elev); border:1px solid var(--line); border-radius:8px; padding:12px 14px; margin-bottom:8px; }
   .todo-row .txt.done{text-decoration:line-through; color:var(--text-dim);}
@@ -300,7 +318,7 @@
   <!-- ============ TAB 3: 记账 ============ -->
   <div id="tab-ledger" style="display:none;">
     <div class="plain-note">
-      只记录还没结清的花费:机票和亚庇酒店已经付清,不算在这里。这里记 27–29 民宿尾款,以及吃饭、租车等旅途花销。任何一个人加的账目,大家打开都能看到同一份。
+      大家这次旅行所有的开销都能记录在这里💰 任何一个人加的账目,大家打开都能看到同一份。
     </div>
 
     <div class="ledger-summary">
@@ -334,6 +352,11 @@
     </form>
 
     <h2 class="section-title">账目明细</h2>
+    <div class="split-toggle" style="margin-bottom:12px;">
+      <button class="btn secondary small sel" data-filter="all">全部</button>
+      <button class="btn secondary small" data-filter="unsettled">未结清</button>
+      <button class="btn secondary small" data-filter="settled">已结清</button>
+    </div>
     <div id="expenseList"></div>
     <div id="ledger-status"></div>
   </div>
@@ -353,7 +376,7 @@ let editingCatSection = null;
 let editingCatId = null;
 
 const EVENTS = [
-  { t: '2026-12-23T00:00:00+08:00', label: '另外2人先出发' },
+  { t: '2026-12-23T00:00:00+08:00', label: '沙巴之旅' },
   { t: '2026-12-24T09:10:00+08:00', label: '出发！新山飞往亚庇' },
   { t: '2026-12-24T14:00:00+08:00', label: 'Qlio Hotel 可以办理入住' },
   { t: '2026-12-25T15:00:00+08:00', label: '神山公园 Sutera 入住' },
@@ -404,6 +427,11 @@ setInterval(updateCountdown, 1000);
 
 /* =================== 工具 =================== */
 function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function gmapsLink(v){
+  if(!v) return '';
+  return v.startsWith('http') ? v : ('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(v));
+}
 
 function colorClassFor(people){
   const total = state.members.length;
@@ -488,28 +516,35 @@ function renderInfo(){
           <div class="icon-btns">
             <button class="icon-btn" data-act="up">↑</button>
             <button class="icon-btn" data-act="down">↓</button>
-            <button class="icon-btn" data-act="edit">✎</button>
-            <button class="icon-btn" data-act="del">🗑</button>
+            <div class="more-menu">
+              <button class="icon-btn" data-act="more">⋮</button>
+              <div class="menu-dropdown">
+                <button data-act="edit">✎ 编辑</button>
+                <button data-act="del">🗑 删除</button>
+              </div>
+            </div>
           </div>
         </div>
       `;
       div.querySelector('[data-act=up]').addEventListener('click', () => postAction({action:'moveFlight', id:f.id, dir:'up'}));
       div.querySelector('[data-act=down]').addEventListener('click', () => postAction({action:'moveFlight', id:f.id, dir:'down'}));
-      div.querySelector('[data-act=del]').addEventListener('click', () => { if(confirm('删除这条机票？')) postAction({action:'deleteFlight', id:f.id}); });
-      div.querySelector('[data-act=edit]').addEventListener('click', () => openFlightForm(f));
+      const moreMenu = div.querySelector('.more-menu');
+      moreMenu.querySelector('[data-act=more]').addEventListener('click', () => moreMenu.classList.toggle('open'));
+      moreMenu.querySelector('[data-act=del]').addEventListener('click', () => { if(confirm('删除这条机票？')) postAction({action:'deleteFlight', id:f.id}); });
+      moreMenu.querySelector('[data-act=edit]').addEventListener('click', () => openFlightForm(f));
       flightsEl.appendChild(div);
     });
 
     const daysEl = document.getElementById('daysList');
     daysEl.innerHTML = '';
-    state.days.forEach(d => {
+    state.days.forEach((d, dayIdx) => {
       const card = document.createElement('div');
-      card.className = 'day-card';
+      card.className = 'day-card' + (dayIdx === 0 ? ' open' : '');
       const itemsHtml = d.items.map(it => `
         <div class="item-row" data-item="${it.id}">
           <div class="t">${esc(it.time)}</div>
           <div class="c">
-            ${esc(it.text)}${it.note ? `<div class="note">${esc(it.note)}</div>` : ''}
+            ${esc(it.text)}${it.map ? ` <a class="maplink" href="${gmapsLink(it.map)}" target="_blank">📍地图</a>` : ''}${it.note ? `<div class="note">${esc(it.note)}</div>` : ''}
           </div>
           <div class="icon-btns">
             <button class="icon-btn" data-act="up">↑</button>
@@ -520,16 +555,21 @@ function renderInfo(){
       `).join('');
       card.innerHTML = `
         <div class="day-head">
-          <div>
+          <div class="day-head-main">
             <div class="d-date">${esc(d.date)}</div>
-            <h3>${esc(d.title)}</h3>
+            <h3>${esc(d.title)} <span class="chev">▾</span></h3>
             <div>${peopleTagsHtml(d.people)}</div>
           </div>
-          <div class="icon-btns">
+          <div class="icon-btns" onclick="event.stopPropagation()">
             <button class="icon-btn" data-act="up">↑</button>
             <button class="icon-btn" data-act="down">↓</button>
-            <button class="icon-btn" data-act="edit">✎</button>
-            <button class="icon-btn" data-act="del">🗑</button>
+            <div class="more-menu">
+              <button class="icon-btn" data-act="more">⋮</button>
+              <div class="menu-dropdown">
+                <button data-act="edit">✎ 编辑</button>
+                <button data-act="del">🗑 删除</button>
+              </div>
+            </div>
           </div>
         </div>
         <div class="day-body">
@@ -537,15 +577,20 @@ function renderInfo(){
           <form class="editform" style="margin-top:10px;">
             <div class="field"><input type="text" placeholder="时间（选填）" class="itTime"></div>
             <div class="field"><input type="text" placeholder="内容" class="itText"></div>
+            <div class="field"><input type="text" placeholder="地点 / Google地图链接（选填）" class="itMap"></div>
             <div class="field"><input type="text" placeholder="备注（选填）" class="itNote"></div>
             <button class="btn small" type="button">+ 添加当天项目</button>
           </form>
         </div>
       `;
-      card.querySelectorAll('.day-head .icon-btn')[0].addEventListener('click', () => postAction({action:'moveDay', id:d.id, dir:'up'}));
-      card.querySelectorAll('.day-head .icon-btn')[1].addEventListener('click', () => postAction({action:'moveDay', id:d.id, dir:'down'}));
-      card.querySelectorAll('.day-head .icon-btn')[2].addEventListener('click', () => openDayForm(d));
-      card.querySelectorAll('.day-head .icon-btn')[3].addEventListener('click', () => { if(confirm('删除这一天？')) postAction({action:'deleteDay', id:d.id}); });
+      card.querySelector('.day-head-main').addEventListener('click', () => card.classList.toggle('open'));
+      const headBtns = card.querySelectorAll('.day-head > .icon-btns > .icon-btn');
+      headBtns[0].addEventListener('click', () => postAction({action:'moveDay', id:d.id, dir:'up'}));
+      headBtns[1].addEventListener('click', () => postAction({action:'moveDay', id:d.id, dir:'down'}));
+      const moreMenu = card.querySelector('.day-head .more-menu');
+      moreMenu.querySelector('[data-act=more]').addEventListener('click', () => moreMenu.classList.toggle('open'));
+      moreMenu.querySelector('[data-act=edit]').addEventListener('click', () => openDayForm(d));
+      moreMenu.querySelector('[data-act=del]').addEventListener('click', () => { if(confirm('删除这一天？')) postAction({action:'deleteDay', id:d.id}); });
 
       card.querySelectorAll('.item-row').forEach(row => {
         const itemId = row.dataset.item;
@@ -559,9 +604,10 @@ function renderInfo(){
       addBtn.addEventListener('click', () => {
         const time = card.querySelector('.itTime').value.trim();
         const text = card.querySelector('.itText').value.trim();
+        const map = card.querySelector('.itMap').value.trim();
         const note = card.querySelector('.itNote').value.trim();
         if(!text) return;
-        postAction({action:'addDayItem', dayId:d.id, time, text, note});
+        postAction({action:'addDayItem', dayId:d.id, time, text, map, note});
       });
 
       daysEl.appendChild(card);
@@ -628,25 +674,29 @@ function renderPrepSection(section, containerId){
   (state.prep[section] || []).forEach(cat => {
     const div = document.createElement('div');
     div.className = 'prep-cat';
-    const itemsHtml = cat.items.map(it => {
+    const rowsHtml = cat.items.map(it => {
       const checks = it.checks || {};
-      const chkHtml = state.members.map(m => {
+      const cells = state.members.map(m => {
         const done = !!checks[m];
-        return `<div class="member-check${done?' done':''}" data-member="${esc(m)}">${esc(m)}</div>`;
+        return `<td class="chk-cell${done?' done':''}" data-item="${it.id}" data-member="${esc(m)}">${done?'✓':'—'}</td>`;
       }).join('');
       return `
-        <div class="prep-item" data-item="${it.id}">
-          <div class="top-row">
-            <div>
-              <div class="txt">${esc(it.text)}</div>
-              ${it.note ? `<div class="note">${esc(it.note)}</div>` : ''}
-            </div>
-            <button class="icon-btn" data-act="delitem">🗑</button>
-          </div>
-          <div class="member-check-grid">${chkHtml}</div>
-        </div>
+        <tr>
+          <td class="item-cell">${esc(it.text)}${it.note ? `<div class="note">${esc(it.note)}</div>` : ''}</td>
+          ${cells}
+          <td><button class="icon-btn" data-act="delitem" data-item="${it.id}">🗑</button></td>
+        </tr>
       `;
     }).join('');
+    const tableHtml = cat.items.length ? `
+      <div class="prep-caption">我确定我已经带了 ✓</div>
+      <div class="prep-table-wrap">
+        <table class="prep-table">
+          <thead><tr><th>物品</th>${state.members.map(m => `<th>${esc(m)}</th>`).join('')}<th></th></tr></thead>
+          <tbody>${rowsHtml}</tbody>
+        </table>
+      </div>
+    ` : '<div class="note" style="margin:8px 0;">这个分类还没有物品</div>';
     div.innerHTML = `
       <div class="cat-head">
         <div><span class="tag-chip clr-${cat.color || 'cream'}">${esc(cat.name)}</span></div>
@@ -655,7 +705,7 @@ function renderPrepSection(section, containerId){
           <button class="icon-btn" data-act="delcat">🗑</button>
         </div>
       </div>
-      ${itemsHtml}
+      ${tableHtml}
       <form class="editform" style="margin-top:10px;">
         <div class="field"><input type="text" placeholder="新增物品" class="newItemText"></div>
         <div class="field"><input type="text" placeholder="备注（选填）" class="newItemNote"></div>
@@ -666,17 +716,15 @@ function renderPrepSection(section, containerId){
       if(confirm('删除这个分类（连同里面的物品）？')) postAction({action:'deletePrepCategory', section, id:cat.id});
     });
     div.querySelector('[data-act=editcat]').addEventListener('click', () => openCatForm(section, cat));
-    div.querySelectorAll('.prep-item').forEach(row => {
-      const itemId = row.dataset.item;
-      row.querySelector('[data-act=delitem]').addEventListener('click', () => {
-        if(confirm('删除这一项？')) postAction({action:'deletePrepItem', section, categoryId:cat.id, id:itemId});
+    div.querySelectorAll('[data-act=delitem]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if(confirm('删除这一项？')) postAction({action:'deletePrepItem', section, categoryId:cat.id, id:btn.dataset.item});
       });
-      row.querySelectorAll('.member-check').forEach(chk => {
-        chk.addEventListener('click', () => {
-          const member = chk.dataset.member;
-          const done = chk.classList.contains('done');
-          postAction({action:'togglePrepCheck', section, categoryId:cat.id, id:itemId, member, value: !done});
-        });
+    });
+    div.querySelectorAll('.chk-cell').forEach(cell => {
+      cell.addEventListener('click', () => {
+        const done = cell.classList.contains('done');
+        postAction({action:'togglePrepCheck', section, categoryId:cat.id, id:cell.dataset.item, member:cell.dataset.member, value: !done});
       });
     });
     const addBtn = div.querySelector('.editform .btn.small');
@@ -776,6 +824,16 @@ document.getElementById('tipForm').addEventListener('submit', (e) => {
 });
 
 /* =================== TAB 3: 记账 =================== */
+let expenseFilter = 'all';
+document.querySelectorAll('[data-filter]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    expenseFilter = btn.dataset.filter;
+    document.querySelectorAll('[data-filter]').forEach(b => b.classList.remove('sel'));
+    btn.classList.add('sel');
+    renderLedger();
+  });
+});
+
 function renderLedger(){
   try{
     const memberRow = document.getElementById('memberRow');
@@ -799,10 +857,19 @@ function renderLedger(){
 
     const listEl = document.getElementById('expenseList');
     listEl.innerHTML = '';
-    if(state.expenses.length === 0){
-      listEl.innerHTML = '<div class="plain-note">还没有账目，添加第一笔吧。</div>';
+    const isSettled = (e) => {
+      const owers = e.participants.filter(p => p !== e.payer);
+      const paidMap = e.paid || {};
+      return owers.length > 0 && owers.every(p => paidMap[p]);
+    };
+    let visible = [...state.expenses];
+    if(expenseFilter === 'settled') visible = visible.filter(isSettled);
+    if(expenseFilter === 'unsettled') visible = visible.filter(e => !isSettled(e));
+
+    if(visible.length === 0){
+      listEl.innerHTML = '<div class="plain-note">这里没有账目。</div>';
     }
-    [...state.expenses].sort((a,b) => b.createdAt - a.createdAt).forEach(e => {
+    visible.sort((a,b) => b.createdAt - a.createdAt).forEach(e => {
       const div = document.createElement('div');
       div.className = 'expense-item';
       const owers = e.participants.filter(p => p !== e.payer);
