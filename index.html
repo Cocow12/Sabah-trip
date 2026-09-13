@@ -104,14 +104,14 @@
   .tag.tbc{background:var(--line); color:var(--text-dim);}
 
   /* ---------- itinerary days ---------- */
-  .day{background:var(--bg-elev); border:1px solid var(--line); border-radius:var(--radius); margin-bottom:10px; overflow:hidden;}
+  .day-card{background:var(--bg-elev); border:1px solid var(--line); border-radius:var(--radius); margin-bottom:10px; overflow:hidden;}
   .day-head{display:flex; justify-content:space-between; align-items:center; padding:14px 16px; cursor:pointer;}
   .day-head .d-info .d-date{font-family:'Helvetica Neue',Arial,sans-serif; font-size:11.5px; color:var(--accent-soft);}
   .day-head .d-info h3{margin:2px 0 0; font-size:17px;}
   .day-head .chev{font-size:14px; color:var(--text-dim); transition:transform .2s;}
-  .day.open .chev{transform:rotate(180deg);}
+  .day-card.open .chev{transform:rotate(180deg);}
   .day-body{display:none; padding:0 16px 16px;}
-  .day.open .day-body{display:block;}
+  .day-card.open .day-body{display:block;}
   .timeline-item{display:flex; gap:14px; padding:10px 0; border-top:1px solid var(--line);}
   .timeline-item:first-child{border-top:none;}
   .timeline-item .t{width:56px; flex-shrink:0; font-family:'Helvetica Neue',Arial,sans-serif; font-size:12.5px; color:var(--accent-soft); padding-top:2px;}
@@ -544,7 +544,7 @@ try{
   const daysEl = document.getElementById('days');
   DAYS.forEach((day, idx) => {
     const div = document.createElement('div');
-    div.className = 'day';
+    div.className = 'day-card';
     const itemsHtml = day.items.map(it => {
       let content = it.c;
       if(it.link){
