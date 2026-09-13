@@ -7,9 +7,7 @@
 <title>沙巴旅行手册 · Sabah Trip</title>
 <style>
   html{ color-scheme: light dark; }
-  :root{
-    --radius: 10px;
-  }
+  :root{ --radius: 10px; }
   body.night{
     --bg:#14201c; --bg-elev:#1c2b25; --bg-elev2:#223530;
     --text:#f2efe6; --text-dim:#cdd8d2;
@@ -37,15 +35,11 @@
   .wrap{max-width:760px; margin:0 auto; padding:0 20px 90px;}
   a{color:inherit;}
 
-  /* ---------- top bar ---------- */
-  .topbar{
-    background:var(--bg); border-bottom:1px solid var(--line);
-    padding:14px 20px;
-  }
+  .topbar{ background:var(--bg); border-bottom:1px solid var(--line); padding:14px 20px; }
   .topbar-row{max-width:760px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px;}
   .brand{font-size:15px; font-weight:600; letter-spacing:.02em;}
   .brand .sub{display:block; font-family:'Helvetica Neue',Arial,sans-serif; font-size:11px; color:var(--accent-soft); letter-spacing:.08em; margin-top:2px;}
-  .tabs{display:flex; gap:6px;}
+  .tabs{display:flex; gap:6px; flex-wrap:wrap;}
   .tab-btn{
     font-family:'Helvetica Neue',Arial,sans-serif; font-size:12.5px; white-space:nowrap;
     background:none; border:1px solid var(--line); color:var(--text-dim);
@@ -57,11 +51,7 @@
     width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:14px;
   }
 
-  /* ---------- countdown ---------- */
-  .countdown{
-    margin-top:22px; padding:22px; border-radius:var(--radius);
-    background:var(--bg-elev); border:1px solid var(--line);
-  }
+  .countdown{ margin-top:22px; padding:22px; border-radius:var(--radius); background:var(--bg-elev); border:1px solid var(--line); }
   .countdown .eyebrow{font-family:'Helvetica Neue',Arial,sans-serif; font-size:11.5px; color:var(--accent-soft); letter-spacing:.06em;}
   .countdown h2{margin:6px 0 14px; font-size:21px;}
   .countdown .nums{display:flex; gap:14px;}
@@ -69,127 +59,101 @@
   .countdown .num{font-size:26px; font-weight:700; font-family:'Helvetica Neue',Arial,sans-serif; color:var(--accent);}
   .countdown .lbl{font-family:'Helvetica Neue',Arial,sans-serif; font-size:10.5px; color:var(--text-dim); margin-top:2px;}
 
-  h2.section-title{
-    margin:40px 0 16px; font-size:22px; font-weight:600;
-    display:flex; align-items:center; gap:10px;
-  }
+  h2.section-title{ margin:40px 0 16px; font-size:22px; font-weight:600; display:flex; align-items:center; gap:10px; }
   h2.section-title::before{content:""; width:8px; height:8px; border-radius:50%; background:var(--accent); display:inline-block;}
+  h3.sub-title{ margin:26px 0 12px; font-size:17px; font-weight:600; color:var(--accent-soft); font-family:'Helvetica Neue',Arial,sans-serif; }
 
-  /* ---------- map ---------- */
   .map-card{background:var(--bg-elev); border:1px solid var(--line); border-radius:var(--radius); padding:16px; overflow:hidden;}
   .map-card svg{width:100%; height:auto; display:block;}
   .map-legend{display:flex; flex-wrap:wrap; gap:10px 16px; margin-top:12px; font-family:'Helvetica Neue',Arial,sans-serif; font-size:12px; color:var(--text-dim);}
   .map-legend span{display:inline-flex; align-items:center; gap:6px;}
   .dot{width:9px; height:9px; border-radius:50%; display:inline-block;}
 
-  /* ---------- confirmed bookings ---------- */
-  .booking-card{
-    background:var(--bg-elev); border:1px solid var(--line); border-radius:var(--radius);
-    padding:16px; margin-bottom:12px;
-  }
-  .booking-card .kind{font-family:'Helvetica Neue',Arial,sans-serif; font-size:11px; color:var(--accent-soft); letter-spacing:.06em; margin-bottom:4px;}
-  .booking-card h3{margin:0 0 8px; font-size:17px;}
-  .booking-card .row{font-family:'Helvetica Neue',Arial,sans-serif; font-size:13.5px; color:var(--text-dim); margin-top:3px;}
-  .booking-card .row b{color:var(--text); font-weight:600;}
-  .booking-card a.maplink{
-    display:inline-block; margin-top:10px; font-family:'Helvetica Neue',Arial,sans-serif; font-size:12.5px;
-    color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent);
-  }
-  .tag{
-    display:inline-block; font-family:'Helvetica Neue',Arial,sans-serif; font-size:11px;
-    padding:2px 9px; border-radius:3px; margin-left:8px; vertical-align:middle;
-  }
-  .tag.ok{background:var(--ok); color:#0d1a10;}
-  .tag.warn{background:var(--danger); color:#2a0d06;}
-  .tag.tbc{background:var(--line); color:var(--text-dim);}
+  .card{ background:var(--bg-elev); border:1px solid var(--line); border-radius:var(--radius); padding:16px; margin-bottom:12px; }
+  .card .top-row{display:flex; justify-content:space-between; align-items:flex-start; gap:8px;}
+  .card h3{margin:0 0 6px; font-size:17px;}
+  .card .row{font-family:'Helvetica Neue',Arial,sans-serif; font-size:13.5px; color:var(--text-dim); margin-top:3px;}
+  .card .note{font-family:'Helvetica Neue',Arial,sans-serif; font-size:12.5px; color:var(--text-dim); font-style:italic; margin-top:6px;}
 
-  /* ---------- itinerary days ---------- */
-  .day-card{background:var(--bg-elev); border:1px solid var(--line); border-radius:var(--radius); margin-bottom:10px; overflow:hidden;}
-  .day-head{display:flex; justify-content:space-between; align-items:center; padding:14px 16px; cursor:pointer;}
-  .day-head .d-info .d-date{font-family:'Helvetica Neue',Arial,sans-serif; font-size:11.5px; color:var(--accent-soft);}
-  .day-head .d-info h3{margin:2px 0 0; font-size:17px;}
-  .day-head .chev{font-size:14px; color:var(--text-dim); transition:transform .2s;}
-  .day-card.open .chev{transform:rotate(180deg);}
-  .day-body{display:none; padding:0 16px 16px;}
-  .day-card.open .day-body{display:block;}
-  .timeline-item{display:flex; gap:14px; padding:10px 0; border-top:1px solid var(--line);}
-  .timeline-item:first-child{border-top:none;}
-  .timeline-item .t{width:56px; flex-shrink:0; font-family:'Helvetica Neue',Arial,sans-serif; font-size:12.5px; color:var(--accent-soft); padding-top:2px;}
-  .timeline-item .c{flex:1; font-size:15px;}
-  .timeline-item .c a{color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent); font-family:'Helvetica Neue',Arial,sans-serif; font-size:12.5px;}
-  .day-nav{margin-top:10px; font-family:'Helvetica Neue',Arial,sans-serif; font-size:12.5px;}
-  .day-nav a{color:var(--accent); text-decoration:none; border-bottom:1px solid var(--accent);}
+  .tag-chip{ display:inline-block; font-family:'Helvetica Neue',Arial,sans-serif; font-size:11px; padding:3px 9px; border-radius:999px; margin:2px 4px 2px 0; font-weight:600; }
+  .clr-cream{background:#f0ead6; color:#4a4030;}
+  .clr-gold{background:#f3d38b; color:#5c4210;}
+  .clr-sage{background:#cfe0c8; color:#2f4a2a;}
+  .clr-sky{background:#cddced; color:#223a5c;}
+  .clr-rose{background:#f0d3d6; color:#5c2530;}
+  .clr-all{background:#bfe3c0; color:#204a26;}
 
-  /* ---------- todo / tips ---------- */
-  .plain-list{list-style:none; padding:0; margin:0;}
-  .plain-list li{
-    padding:12px 16px; background:var(--bg-elev); border:1px solid var(--line);
-    border-radius:8px; margin-bottom:8px; font-size:15px;
-  }
-  .tips-grid{display:grid; grid-template-columns:1fr; gap:8px;}
-  .tip-item{background:var(--bg-elev); border:1px solid var(--line); border-radius:8px; padding:12px 16px; font-size:14.5px;}
-  .tip-item b{color:var(--accent);}
+  .icon-btns{display:flex; gap:4px; flex-shrink:0;}
+  .icon-btn{ background:none; border:1px solid var(--line); color:var(--text-dim); border-radius:6px; width:28px; height:28px; cursor:pointer; font-size:13px; display:flex; align-items:center; justify-content:center; }
 
-  /* ---------- ledger ---------- */
-  .ledger-summary{background:var(--bg-elev); border:1px solid var(--line); border-radius:var(--radius); padding:18px; margin-bottom:20px;}
-  .ledger-summary .total{font-size:28px; font-weight:700; font-family:'Helvetica Neue',Arial,sans-serif;}
-  .ledger-summary .sub{font-family:'Helvetica Neue',Arial,sans-serif; font-size:12.5px; color:var(--text-dim); margin-top:2px;}
-  .settle-row{
-    display:flex; justify-content:space-between; align-items:center;
-    background:var(--bg-elev2); border-radius:8px; padding:12px 14px; margin-top:10px;
-    font-family:'Helvetica Neue',Arial,sans-serif; font-size:13.5px;
-  }
-  .settle-row .amt{color:var(--danger); font-weight:700; font-size:15px;}
+  .day-card{ background:var(--bg-elev); border:1px solid var(--line); border-radius:var(--radius); margin-bottom:12px; overflow:hidden; }
+  .day-card .day-head{ padding:14px 16px; display:flex; justify-content:space-between; align-items:flex-start; gap:8px; }
+  .day-card .day-head h3{margin:2px 0 6px; font-size:17px;}
+  .day-card .d-date{font-family:'Helvetica Neue',Arial,sans-serif; font-size:11.5px; color:var(--accent-soft);}
+  .day-card .day-body{padding:0 16px 16px;}
+  .item-row{display:flex; gap:10px; padding:9px 0; border-top:1px solid var(--line); align-items:flex-start;}
+  .item-row:first-child{border-top:none;}
+  .item-row .t{width:52px; flex-shrink:0; font-family:'Helvetica Neue',Arial,sans-serif; font-size:12px; color:var(--accent-soft); padding-top:2px;}
+  .item-row .c{flex:1; font-size:15px;}
+  .item-row .c .note{font-size:12px;}
 
-  form.add-expense{background:var(--bg-elev); border:1px solid var(--line); border-radius:var(--radius); padding:16px; margin-bottom:20px;}
-  form.add-expense h3{margin:0 0 12px; font-size:16px;}
-  .field{margin-bottom:12px;}
+  form.editform{background:var(--bg-elev2); border:1px solid var(--line); border-radius:var(--radius); padding:14px; margin:10px 0;}
+  .field{margin-bottom:10px;}
   .field label{display:block; font-family:'Helvetica Neue',Arial,sans-serif; font-size:12px; color:var(--text-dim); margin-bottom:5px;}
   .field input[type=text], .field input[type=number], .field select{
-    width:100%; padding:10px; border-radius:7px; border:1px solid var(--line);
+    width:100%; padding:9px; border-radius:7px; border:1px solid var(--line);
     background:var(--bg); color:var(--text); font-size:14.5px; font-family:'Helvetica Neue',Arial,sans-serif;
   }
   .check-grid{display:flex; flex-wrap:wrap; gap:8px;}
-  .check-pill{
-    font-family:'Helvetica Neue',Arial,sans-serif; font-size:13px;
-    border:1px solid var(--line); border-radius:999px; padding:6px 12px; cursor:pointer; user-select:none;
-  }
+  .check-pill{ font-family:'Helvetica Neue',Arial,sans-serif; font-size:13px; border:1px solid var(--line); border-radius:999px; padding:6px 12px; cursor:pointer; user-select:none; }
   .check-pill.sel{background:var(--accent); border-color:var(--accent); color:var(--accent-ink); font-weight:600;}
-  .btn{
-    font-family:'Helvetica Neue',Arial,sans-serif; font-size:14px; font-weight:600;
-    background:var(--accent); color:var(--accent-ink); border:none; border-radius:8px;
-    padding:11px 18px; cursor:pointer; width:100%;
-  }
+  .btn{ font-family:'Helvetica Neue',Arial,sans-serif; font-size:14px; font-weight:600; background:var(--accent); color:var(--accent-ink); border:none; border-radius:8px; padding:11px 18px; cursor:pointer; width:100%; }
   .btn.secondary{background:none; border:1px solid var(--line); color:var(--text-dim); font-weight:400;}
-  .expense-item{
-    background:var(--bg-elev); border:1px solid var(--line); border-radius:8px;
-    padding:12px 14px; margin-bottom:8px;
-  }
+  .btn.small{width:auto; padding:8px 14px; font-size:13px;}
+  .add-toggle{margin:10px 0 22px;}
+
+  .member-row{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;}
+  .member-chip{ font-family:'Helvetica Neue',Arial,sans-serif; font-size:12.5px; background:var(--bg-elev2); border-radius:999px; padding:6px 12px; display:flex; align-items:center; gap:6px; }
+  .member-chip button{background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:13px;}
+
+  .plain-note{font-family:'Helvetica Neue',Arial,sans-serif; font-size:12.5px; color:var(--text-dim); margin-bottom:16px; padding:10px 12px; background:var(--bg-elev2); border-radius:8px;}
+
+  .prep-cat{background:var(--bg-elev); border:1px solid var(--line); border-radius:var(--radius); padding:14px 16px; margin-bottom:14px;}
+  .prep-cat .cat-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;}
+  .prep-item{border-top:1px solid var(--line); padding:10px 0;}
+  .prep-item:first-child{border-top:none;}
+  .prep-item .txt{font-size:15px;}
+  .prep-item .note{font-family:'Helvetica Neue',Arial,sans-serif; font-size:12px; color:var(--text-dim); font-style:italic;}
+  .member-check-grid{display:flex; flex-wrap:wrap; gap:6px; margin-top:8px;}
+  .member-check{ font-family:'Helvetica Neue',Arial,sans-serif; font-size:11.5px; border:1px solid var(--line); border-radius:999px; padding:4px 10px; cursor:pointer; color:var(--text-dim); }
+  .member-check.done{background:var(--ok); border-color:var(--ok); color:#0d1a10; font-weight:600;}
+
+  .todo-row, .tip-row{ display:flex; justify-content:space-between; align-items:center; background:var(--bg-elev); border:1px solid var(--line); border-radius:8px; padding:12px 14px; margin-bottom:8px; }
+  .todo-row .txt.done{text-decoration:line-through; color:var(--text-dim);}
+  .todo-row .left{display:flex; align-items:center; gap:10px; flex:1;}
+  .todo-check{width:18px; height:18px; border-radius:5px; border:1px solid var(--text-dim); flex-shrink:0; cursor:pointer;}
+  .todo-check.done{background:var(--ok); border-color:var(--ok);}
+
+  .ledger-summary{background:var(--bg-elev); border:1px solid var(--line); border-radius:var(--radius); padding:18px; margin-bottom:20px;}
+  .ledger-summary .total{font-size:28px; font-weight:700; font-family:'Helvetica Neue',Arial,sans-serif;}
+  .ledger-summary .sub{font-family:'Helvetica Neue',Arial,sans-serif; font-size:12.5px; color:var(--text-dim); margin-top:2px;}
+
+  .expense-item{ background:var(--bg-elev); border:1px solid var(--line); border-radius:8px; padding:12px 14px; margin-bottom:8px; }
   .expense-item .top-row{display:flex; justify-content:space-between; align-items:flex-start;}
   .expense-item .meta{font-family:'Helvetica Neue',Arial,sans-serif; font-size:12px; color:var(--text-dim); margin-top:3px;}
   .expense-item .note{font-family:'Helvetica Neue',Arial,sans-serif; font-size:12.5px; color:var(--text-dim); margin-top:4px; font-style:italic;}
   .expense-item .amt{font-family:'Helvetica Neue',Arial,sans-serif; font-weight:700; font-size:15px;}
   .paid-tracker{margin-top:12px; padding-top:10px; border-top:1px solid var(--line); display:flex; flex-wrap:wrap; gap:8px;}
-  .paid-pill{
-    font-family:'Helvetica Neue',Arial,sans-serif; font-size:12.5px; cursor:pointer; user-select:none;
-    border:1px solid var(--line); border-radius:999px; padding:6px 12px;
-    display:flex; align-items:center; gap:6px; color:var(--text-dim);
-  }
-  .paid-pill .box{width:14px; height:14px; border-radius:4px; border:1px solid var(--text-dim); display:inline-block; flex-shrink:0;}
+  .paid-pill{ font-family:'Helvetica Neue',Arial,sans-serif; font-size:12.5px; cursor:pointer; user-select:none; border:1px solid var(--line); border-radius:999px; padding:6px 12px; color:var(--text-dim); }
   .paid-pill.done{background:var(--ok); border-color:var(--ok); color:#0d1a10; font-weight:600;}
-  .paid-pill.done .box{background:var(--accent-ink); border-color:var(--accent-ink);}
   .settled-tag{font-family:'Helvetica Neue',Arial,sans-serif; font-size:11px; background:var(--ok); color:#0d1a10; padding:2px 9px; border-radius:3px; font-weight:600;}
   .del-btn{background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:16px; padding:0 0 0 10px;}
-  .member-row{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;}
-  .member-chip{
-    font-family:'Helvetica Neue',Arial,sans-serif; font-size:12.5px;
-    background:var(--bg-elev2); border-radius:999px; padding:6px 12px;
-    display:flex; align-items:center; gap:6px;
-  }
-  .member-chip button{background:none; border:none; color:var(--text-dim); cursor:pointer; font-size:13px;}
-  .ledger-note{font-family:'Helvetica Neue',Arial,sans-serif; font-size:12.5px; color:var(--text-dim); margin-bottom:16px; padding:10px 12px; background:var(--bg-elev2); border-radius:8px;}
-  #ledger-status{font-family:'Helvetica Neue',Arial,sans-serif; font-size:13px; color:var(--text-dim); text-align:center; padding:20px 0;}
+  .split-toggle{display:flex; gap:8px; margin-bottom:10px;}
+  .split-toggle button{flex:1;}
+  .custom-amt-row{display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:8px; font-family:'Helvetica Neue',Arial,sans-serif; font-size:13.5px;}
+  .custom-amt-row input{width:90px; padding:7px; border-radius:6px; border:1px solid var(--line); background:var(--bg); color:var(--text);}
 
+  #ledger-status, #info-status, #prep-status{font-family:'Helvetica Neue',Arial,sans-serif; font-size:13px; color:var(--text-dim); text-align:center; padding:10px 0;}
   footer{text-align:center; font-family:'Helvetica Neue',Arial,sans-serif; font-size:11.5px; color:var(--text-dim); margin-top:50px;}
 </style>
 </head>
@@ -197,10 +161,11 @@
 
 <div class="topbar">
   <div class="topbar-row">
-    <div class="brand">沙巴之旅<span class="sub">SABAH · 24–29 DEC 2026</span></div>
+    <div class="brand">沙巴之旅<span class="sub">SABAH · 23–29 DEC 2026</span></div>
     <div style="display:flex; align-items:center;">
       <div class="tabs">
         <button class="tab-btn active" data-tab="info">旅行信息</button>
+        <button class="tab-btn" data-tab="prep">准备清单</button>
         <button class="tab-btn" data-tab="ledger">记账</button>
       </div>
       <button class="theme-toggle" id="themeToggle" title="切换日夜配色">◐</button>
@@ -210,7 +175,7 @@
 
 <div class="wrap">
 
-  <!-- ============ TAB: 旅行信息 ============ -->
+  <!-- ============ TAB 1: 旅行信息 ============ -->
   <div id="tab-info">
 
     <div class="countdown" id="countdown">
@@ -227,6 +192,7 @@
     <h2 class="section-title">行程总览</h2>
     <div class="map-card">
       <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20,250 C30,245 35,242 40,240" fill="none" stroke="#9c8f7a" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 8"/>
         <path d="M40,240 C110,220 140,180 180,170" fill="none" stroke="#7fa0c9" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 10"/>
         <path d="M180,170 C220,160 250,150 290,150" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/>
         <path d="M290,150 C340,150 380,130 420,110" fill="none" stroke="#e07b5a" stroke-width="3" stroke-linecap="round"/>
@@ -235,6 +201,9 @@
         <path d="M420,150 C400,190 380,220 350,235" fill="none" stroke="#8fae7c" stroke-width="3" stroke-linecap="round"/>
         <path d="M350,235 C300,250 250,250 210,245" fill="none" stroke="#8fae7c" stroke-width="3" stroke-linecap="round"/>
         <path d="M210,245 C160,235 120,225 90,220" fill="none" stroke="#7fa0c9" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 10"/>
+
+        <circle cx="20" cy="250" r="5" fill="#9c8f7a"/>
+        <text x="20" y="270" font-size="10.5" fill="var(--text-dim)" text-anchor="middle" font-family="Helvetica Neue,Arial">Day 0</text>
 
         <circle cx="40" cy="240" r="6" fill="#7fa0c9"/>
         <text x="40" y="262" font-size="12" fill="var(--text)" text-anchor="middle" font-family="Helvetica Neue,Arial">新山 JHB</text>
@@ -252,7 +221,6 @@
         <text x="420" y="135" font-size="12" fill="var(--text)" text-anchor="middle" font-family="Helvetica Neue,Arial">拉班拉打 (半山)</text>
 
         <path d="M482,35 l6,14 l14,2 l-10,10 l3,14 l-13,-7 l-13,7 l3,-14 l-10,-10 l14,-2 z" fill="var(--accent-soft)"/>
-        <text x="490" y="42" font-size="10" fill="var(--accent-ink)" text-anchor="middle" font-family="Helvetica Neue,Arial" opacity="0"> </text>
         <text x="490" y="20" font-size="11" fill="var(--text)" text-anchor="middle" font-family="Helvetica Neue,Arial">洛氏峰 4095m</text>
 
         <circle cx="350" cy="235" r="7" fill="#8fae7c"/>
@@ -264,6 +232,7 @@
         <text x="90" y="238" font-size="12" fill="var(--text)" text-anchor="middle" font-family="Helvetica Neue,Arial">飞回新山</text>
       </svg>
       <div class="map-legend">
+        <span><i class="dot" style="background:#9c8f7a"></i>另外2人先到</span>
         <span><i class="dot" style="background:var(--accent)"></i>抵达 / 市区</span>
         <span><i class="dot" style="background:#e07b5a"></i>神山公园</span>
         <span><i class="dot" style="background:#c9556b"></i>攀登两天</span>
@@ -272,59 +241,95 @@
       </div>
     </div>
 
-    <h2 class="section-title">已确认预订</h2>
-    <div id="bookings"></div>
+    <h2 class="section-title">机票</h2>
+    <div id="flightsList"></div>
+    <button class="btn secondary add-toggle" id="showAddFlight">+ 添加机票</button>
+    <form class="editform" id="flightForm" style="display:none;">
+      <div class="field"><label>路线 / 航空公司</label><input type="text" id="flRoute" placeholder="例如：新山 ⇄ 亚庇 · AirAsia"></div>
+      <div class="field"><label>去程</label><input type="text" id="flOut" placeholder="例如：12月24日 09:10 → 11:30"></div>
+      <div class="field"><label>回程</label><input type="text" id="flIn" placeholder="例如：12月29日 12:40 → 15:00"></div>
+      <div class="field"><label>备注</label><input type="text" id="flNote" placeholder="选填"></div>
+      <div class="field"><label>适用于谁</label><div class="check-grid" id="flPeople"></div></div>
+      <button class="btn" type="button" id="flSaveBtn">保存</button>
+    </form>
 
     <h2 class="section-title">逐日行程</h2>
-    <div id="days"></div>
-
-    <h2 class="section-title">待办清单</h2>
-    <ul class="plain-list" id="todo"></ul>
-
-    <h2 class="section-title">实用贴士</h2>
-    <div class="tips-grid" id="tips"></div>
+    <div id="daysList"></div>
+    <button class="btn secondary add-toggle" id="showAddDay">+ 新增一天</button>
+    <form class="editform" id="dayForm" style="display:none;">
+      <div class="field"><label>日期</label><input type="text" id="dayDate" placeholder="例如：12月30日 · 周三"></div>
+      <div class="field"><label>标题</label><input type="text" id="dayTitle" placeholder="例如：Day 7 · 补充行程"></div>
+      <div class="field"><label>适用于谁</label><div class="check-grid" id="dayPeople"></div></div>
+      <button class="btn" type="button" id="daySaveBtn">保存</button>
+    </form>
+    <div id="info-status"></div>
   </div>
 
-  <!-- ============ TAB: 记账 ============ -->
+  <!-- ============ TAB 2: 准备清单 ============ -->
+  <div id="tab-prep" style="display:none;">
+    <h2 class="section-title">出发前准备</h2>
+    <div id="prepBefore"></div>
+    <button class="btn secondary add-toggle" data-section="before">+ 新增分类</button>
+
+    <h2 class="section-title">登山前准备</h2>
+    <div id="prepClimb"></div>
+    <button class="btn secondary add-toggle" data-section="climb">+ 新增分类</button>
+
+    <form class="editform" id="catForm" style="display:none;">
+      <div class="field"><label>分类名称</label><input type="text" id="catName" placeholder="例如：行李 - 电子用品"></div>
+      <div class="field"><label>颜色</label><div class="check-grid" id="catColor"></div></div>
+      <button class="btn" type="button" id="catSaveBtn">保存</button>
+    </form>
+
+    <h2 class="section-title">待办事项</h2>
+    <div id="todoList"></div>
+    <form class="editform" id="todoForm">
+      <div class="field"><input type="text" id="todoText" placeholder="新增待办"></div>
+      <button class="btn secondary" type="submit">+ 添加</button>
+    </form>
+
+    <h2 class="section-title">额外贴士</h2>
+    <div id="tipList"></div>
+    <form class="editform" id="tipForm">
+      <div class="field"><input type="text" id="tipText" placeholder="新增贴士"></div>
+      <button class="btn secondary" type="submit">+ 添加</button>
+    </form>
+    <div id="prep-status"></div>
+  </div>
+
+  <!-- ============ TAB 3: 记账 ============ -->
   <div id="tab-ledger" style="display:none;">
-    <div class="ledger-note">
-      只记录还没结清的花费:机票和亚庇酒店已经付清,不算在这里。这里记 27–29 民宿尾款,以及吃饭、租车等旅途花销。任何一个人加的账目,5个人打开都能看到同一份。
+    <div class="plain-note">
+      只记录还没结清的花费:机票和亚庇酒店已经付清,不算在这里。这里记 27–29 民宿尾款,以及吃饭、租车等旅途花销。任何一个人加的账目,大家打开都能看到同一份。
     </div>
 
-    <div class="ledger-summary" id="ledgerSummary">
+    <div class="ledger-summary">
       <div class="total sans" id="ledgerTotal">–</div>
       <div class="sub">累计已记账金额</div>
     </div>
 
     <h2 class="section-title">成员</h2>
     <div class="member-row" id="memberRow"></div>
-    <form class="add-expense" id="addMemberForm" style="margin-bottom:24px;">
+    <form class="editform" id="addMemberForm">
       <div class="field"><input type="text" id="newMemberName" placeholder="新成员名字"></div>
       <button class="btn secondary" type="submit">+ 添加成员</button>
     </form>
 
     <h2 class="section-title">记一笔</h2>
-    <form class="add-expense" id="addExpenseForm">
+    <form class="editform" id="addExpenseForm">
+      <div class="field"><label>这笔花的是什么</label><input type="text" id="expDesc" placeholder="例如：晚餐、租车、门票" required></div>
+      <div class="field"><label>备注（选填）</label><input type="text" id="expNote" placeholder="例如：Sutera Sanctuary 附近那家海鲜档"></div>
+      <div class="field"><label>金额 (MYR，已含税/服务费请直接填总额)</label><input type="number" id="expAmount" step="0.01" min="0" placeholder="0.00" required></div>
+      <div class="field"><label>谁先垫付的</label><select id="expPayer"></select></div>
+      <div class="field"><label>平分给谁 (可多选)</label><div class="check-grid" id="expParticipants"></div></div>
       <div class="field">
-        <label>这笔花的是什么</label>
-        <input type="text" id="expDesc" placeholder="例如：晚餐、租车、门票" required>
+        <label>怎么分</label>
+        <div class="split-toggle">
+          <button class="btn secondary" type="button" id="splitEvenBtn">均分</button>
+          <button class="btn secondary" type="button" id="splitCustomBtn">自定义金额</button>
+        </div>
       </div>
-      <div class="field">
-        <label>备注（选填）</label>
-        <input type="text" id="expNote" placeholder="例如：Sutera Sanctuary 附近那家海鲜档">
-      </div>
-      <div class="field">
-        <label>金额 (MYR，已含税/服务费请直接填总额)</label>
-        <input type="number" id="expAmount" step="0.01" min="0" placeholder="0.00" required>
-      </div>
-      <div class="field">
-        <label>谁先垫付的</label>
-        <select id="expPayer"></select>
-      </div>
-      <div class="field">
-        <label>平分给谁 (可多选)</label>
-        <div class="check-grid" id="expParticipants"></div>
-      </div>
+      <div class="field" id="customAmountsWrap" style="display:none;"></div>
       <button class="btn" type="submit">添加账目</button>
     </form>
 
@@ -335,13 +340,20 @@
 
 </div>
 
-<footer>沙巴旅行手册 · 5 人共享</footer>
+<footer>沙巴旅行手册 · 大家共享</footer>
 
 <script>
-/* =================== 数据 =================== */
-const TZ = 'Asia/Kuala_Lumpur';
+/* =================== 全局状态 =================== */
+let state = { members: [], flights: [], days: [], prep: { before: [], climb: [] }, todos: [], tips: [], expenses: [] };
+let selectedParticipants = new Set();
+let splitMode = 'even';
+let editingFlightId = null;
+let editingDayId = null;
+let editingCatSection = null;
+let editingCatId = null;
 
 const EVENTS = [
+  { t: '2026-12-23T00:00:00+08:00', label: '另外2人先出发' },
   { t: '2026-12-24T09:10:00+08:00', label: '出发！新山飞往亚庇' },
   { t: '2026-12-24T14:00:00+08:00', label: 'Qlio Hotel 可以办理入住' },
   { t: '2026-12-25T15:00:00+08:00', label: '神山公园 Sutera 入住' },
@@ -351,139 +363,7 @@ const EVENTS = [
   { t: '2026-12-29T12:40:00+08:00', label: '搭机返回新山' }
 ];
 
-const BOOKINGS = [
-  {
-    kind: '往返机票 · AirAsia', title: '新山 (JHB) ⇄ 亚庇 (BKI)',
-    rows: [
-      '出发：12月24日 09:10 → 11:30（直飞 2h20m）',
-      '回程：12月29日 12:40 → 15:00（直飞 2h20m）',
-      '乘客：Yu Ke / Rui En / Yuen Hong'
-    ],
-    status: 'ok', statusLabel: '已付清',
-    map: null
-  },
-  {
-    kind: '酒店 · 24–25 Dec', title: 'Qlio Hotel（亚庇市区）',
-    rows: [
-      'No 3, Lot 7, Block C, Segama Shopping Complex, Kota Kinabalu, 88814',
-      '电话：60-088-204886',
-      '入住 12/24 14:00 → 退房 12/25 12:00 · Triple Room'
-    ],
-    status: 'ok', statusLabel: '已付清',
-    map: 'Qlio Hotel Segama Shopping Complex Kota Kinabalu'
-  },
-  {
-    kind: '酒店 · 23–25 Dec（另外2人）', title: '待补充',
-    rows: ['另外两位队友 23 号先抵达，23–25 号住的地方还没确认，之后补充'],
-    status: 'tbc', statusLabel: '待定',
-    map: null
-  },
-  {
-    kind: '住宿 · 25–26 Dec', title: 'Sutera Sanctuary at Kinabalu Park',
-    rows: [
-      '神山公园内，入住 12/25 15:00 → 退房 12/26 12:00',
-      '2 x Rock Twin Room（共用浴室）· 4人'
-    ],
-    status: 'ok', statusLabel: '已确认',
-    map: 'Kinabalu Park Ranau Sabah'
-  },
-  {
-    kind: '登山许可 · Sabah Parks · 26–27 Dec', title: '2D1N Panalaban Hostel（登山）',
-    rows: [
-      '登山者：Yu Ke / Yuen Hong / Rui En / Wen Xin（4人）',
-      '含住宿、餐食、许可证、保险',
-      '第5位队员不在登山名单内'
-    ],
-    status: 'ok', statusLabel: '已订好',
-    map: null
-  },
-  {
-    kind: '民宿 · 27–29 Dec', title: 'The Cloud Kinabalu',
-    rows: [
-      '2晚，5人一起住',
-      '已付订金，抵达后付尾款（尾款记在"记账"里）',
-      '地址待补充'
-    ],
-    status: 'warn', statusLabel: '尾款未付',
-    map: null
-  }
-];
-
-const DAYS = [
-  {
-    date: '12月24日 · 周四', title: 'Day 1 · 抵达亚庇',
-    items: [
-      { t: '09:10', c: '新山飞亚庇，AirAsia 直飞', link: null },
-      { t: '11:30', c: '抵达亚庇国际机场', link: 'Kota Kinabalu International Airport', linkLabel: '地图' },
-      { t: '14:00', c: '入住', link: 'Qlio Hotel Segama Shopping Complex Kota Kinabalu', linkLabel: 'Qlio Hotel' },
-      { t: '晚上', c: '市区自由活动（吃饭/景点还没规划，之后补充）' }
-    ],
-    navStops: ['Kota Kinabalu International Airport', 'Qlio Hotel Segama Shopping Complex Kota Kinabalu']
-  },
-  {
-    date: '12月25日 · 周五', title: 'Day 2 · 前往神山公园',
-    items: [
-      { t: '12:00', c: 'Qlio Hotel 退房' },
-      { t: '下午', c: '包车/租车前往', link: 'Kinabalu Park Ranau Sabah', linkLabel: '神山公园', after: '（车程约2小时）' },
-      { t: '15:00', c: '入住 Sutera Sanctuary，与另外2位队友会合' },
-      { t: '晚上', c: '登山简报 + 早点休息，为明天做准备' }
-    ],
-    navStops: ['Qlio Hotel Segama Shopping Complex Kota Kinabalu', 'Kinabalu Park Ranau Sabah']
-  },
-  {
-    date: '12月26日 · 周六', title: 'Day 3 · 攀登至拉班拉打',
-    items: [
-      { t: '07:00', c: '从丁波幽门 (Timpohon Gate) 出发，徒步约6公里' },
-      { t: '下午', c: '抵达 Panalaban / Laban Rata（约3273米），入住山屋' },
-      { t: '晚上', c: '早睡，凌晨2点多要起来冲顶' }
-    ],
-    navStops: []
-  },
-  {
-    date: '12月27日 · 周日', title: 'Day 4 · 冲顶日出 + 下山入住民宿',
-    items: [
-      { t: '02:30', c: '出发冲顶，目标洛氏峰 (Low\'s Peak, 4095m)' },
-      { t: '清晨', c: '山顶看日出，原路下山' },
-      { t: '下午', c: '一路下到公园大门，转往民宿' },
-      { t: '15:00', c: '入住 The Cloud Kinabalu（地址待补充）' }
-    ],
-    navStops: []
-  },
-  {
-    date: '12月28日 · 周一', title: 'Day 5 · 自由活动',
-    items: [
-      { t: '全天', c: '休整 / 岛跳或市区活动（还没规划，之后补充）' }
-    ],
-    navStops: []
-  },
-  {
-    date: '12月29日 · 周二', title: 'Day 6 · 返回新山',
-    items: [
-      { t: '上午', c: '民宿退房，前往机场' },
-      { t: '12:40', c: '亚庇飞新山，AirAsia 直飞' },
-      { t: '15:00', c: '抵达新山，行程结束' }
-    ],
-    navStops: []
-  }
-];
-
-const TODO = [
-  '确认另外2人 23–25 号住的酒店，补充到页面',
-  '补充 The Cloud Kinabalu 民宿的地址和联系电话',
-  '规划亚庇市区 / 神山附近的吃饭地点',
-  '规划 12月28日自由活动内容（岛跳 / 市区）',
-  '打包登山装备：雨衣、登山杖、保暖衣物、头灯、水袋',
-  '确认是否需要打印登山许可证纸本'
-];
-
-const TIPS = [
-  { h: '天气', b: '山下亚庇是热带气候，白天炎热；但爬到拉班拉打和山顶非常冷，务必带保暖外套和手套。' },
-  { h: '高原反应', b: '洛氏峰海拔4095米，部分人会有轻微高反（头痛、气喘），冲顶前一晚尽量早睡、少剧烈运动。' },
-  { h: '货币', b: '当地用马来西亚令吉 (MYR)，山上消费较贵，建议下山前备好现金。' },
-  { h: '插座', b: '马来西亚是英式三孔插座 (Type G)，充电宝务必带够，山上不一定有插座。' }
-];
-
-/* =================== 主题：日夜自动切换（不用 localStorage，避免部分浏览器隐私模式下报错） =================== */
+/* =================== 主题 =================== */
 let manualTheme = null;
 function applyTheme(){
   try{
@@ -494,11 +374,10 @@ function applyTheme(){
 }
 try{
   document.getElementById('themeToggle').addEventListener('click', () => {
-    const current = document.body.className;
-    manualTheme = current === 'night' ? 'day' : 'night';
+    manualTheme = document.body.className === 'night' ? 'day' : 'night';
     document.body.className = manualTheme;
   });
-}catch(e){ console.error('theme toggle bind error', e); }
+}catch(e){}
 applyTheme();
 setInterval(applyTheme, 60000);
 
@@ -514,198 +393,66 @@ function updateCountdown(){
     }
     document.getElementById('cd-title').textContent = next.label;
     const diff = new Date(next.t) - now;
-    const d = Math.floor(diff / 86400000);
-    const h = Math.floor((diff % 86400000) / 3600000);
-    const m = Math.floor((diff % 3600000) / 60000);
-    const s = Math.floor((diff % 60000) / 1000);
-    document.getElementById('cd-d').textContent = d;
-    document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
-    document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
-    document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+    document.getElementById('cd-d').textContent = Math.floor(diff / 86400000);
+    document.getElementById('cd-h').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2,'0');
+    document.getElementById('cd-m').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0');
+    document.getElementById('cd-s').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2,'0');
   }catch(e){ console.error('countdown error', e); }
 }
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-/* =================== 渲染：已确认预订 =================== */
-function gmaps(q){ return 'https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(q); }
-function gmapsDir(stops){
-  if(!stops.length) return '#';
-  const origin = stops[0], dest = stops[stops.length-1], mid = stops.slice(1,-1);
-  let url = 'https://www.google.com/maps/dir/?api=1&origin=' + encodeURIComponent(origin) + '&destination=' + encodeURIComponent(dest);
-  if(mid.length) url += '&waypoints=' + encodeURIComponent(mid.join('|'));
-  return url;
+/* =================== 工具 =================== */
+function esc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+function colorClassFor(people){
+  const total = state.members.length;
+  if(!people || people.length === 0) return 'clr-cream';
+  if(total > 0 && people.length === total) return 'clr-all';
+  const palette = ['clr-cream','clr-gold','clr-sage','clr-sky','clr-rose'];
+  const sig = [...people].sort().join('|');
+  let h = 0;
+  for(let i=0;i<sig.length;i++) h = (h * 31 + sig.charCodeAt(i)) >>> 0;
+  return palette[h % palette.length];
 }
 
-try{
-  const bookingsEl = document.getElementById('bookings');
-  BOOKINGS.forEach(b => {
-    const div = document.createElement('div');
-    div.className = 'booking-card';
-    const tagClass = b.status === 'ok' ? 'ok' : (b.status === 'warn' ? 'warn' : 'tbc');
-    div.innerHTML = `
-      <div class="kind sans">${b.kind}</div>
-      <h3>${b.title}<span class="tag ${tagClass} sans">${b.statusLabel}</span></h3>
-      ${b.rows.map(r => `<div class="row sans">${r}</div>`).join('')}
-      ${b.map ? `<a class="maplink" href="${gmaps(b.map)}" target="_blank">在 Google 地图打开 →</a>` : ''}
-    `;
-    bookingsEl.appendChild(div);
+function peopleTagsHtml(people){
+  const cls = colorClassFor(people);
+  return (people||[]).map(p => `<span class="tag-chip ${cls}">${esc(p)}</span>`).join('') || '<span class="tag-chip clr-cream">未指定</span>';
+}
+
+function checkGridHtml(containerId, selectedSet){
+  const el = document.getElementById(containerId);
+  if(!el) return;
+  el.innerHTML = '';
+  state.members.forEach(m => {
+    const pill = document.createElement('div');
+    pill.className = 'check-pill' + (selectedSet.has(m) ? ' sel' : '');
+    pill.textContent = m;
+    pill.addEventListener('click', () => {
+      if(selectedSet.has(m)) selectedSet.delete(m); else selectedSet.add(m);
+      pill.classList.toggle('sel');
+    });
+    el.appendChild(pill);
   });
-}catch(e){ console.error('bookings render error', e); }
+}
 
-/* =================== 渲染：逐日行程 =================== */
-try{
-  const daysEl = document.getElementById('days');
-  DAYS.forEach((day, idx) => {
-    const div = document.createElement('div');
-    div.className = 'day-card';
-    const itemsHtml = day.items.map(it => {
-      let content = it.c;
-      if(it.link){
-        content = `${it.c} <a href="${gmaps(it.link)}" target="_blank">${it.linkLabel || it.link}</a>${it.after || ''}`;
-      }
-      return `<div class="timeline-item"><div class="t sans">${it.t}</div><div class="c">${content}</div></div>`;
-    }).join('');
-    const navHtml = day.navStops.length
-      ? `<div class="day-nav"><a href="${gmapsDir(day.navStops)}" target="_blank">📍 打开今日多点导航 →</a></div>`
-      : '';
-    div.innerHTML = `
-      <div class="day-head">
-        <div class="d-info"><div class="d-date sans">${day.date}</div><h3>${day.title}</h3></div>
-        <div class="chev">▾</div>
-      </div>
-      <div class="day-body">${itemsHtml}${navHtml}</div>
-    `;
-    div.querySelector('.day-head').addEventListener('click', () => div.classList.toggle('open'));
-    if(idx === 0) div.classList.add('open');
-    daysEl.appendChild(div);
-  });
-}catch(e){ console.error('days render error', e); }
-
-/* =================== 渲染：待办 + 贴士 =================== */
-try{
-  const todoEl = document.getElementById('todo');
-  TODO.forEach(t => { const li = document.createElement('li'); li.textContent = t; todoEl.appendChild(li); });
-
-  const tipsEl = document.getElementById('tips');
-  TIPS.forEach(t => {
-    const div = document.createElement('div');
-    div.className = 'tip-item';
-    div.innerHTML = `<b>${t.h}：</b>${t.b}`;
-    tipsEl.appendChild(div);
-  });
-}catch(e){ console.error('todo/tips render error', e); }
-
-/* =================== Tabs =================== */
-document.querySelectorAll('.tab-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const tab = btn.dataset.tab;
-    document.getElementById('tab-info').style.display = tab === 'info' ? '' : 'none';
-    document.getElementById('tab-ledger').style.display = tab === 'ledger' ? '' : 'none';
-    if(tab === 'ledger') loadLedger();
-  });
-});
-
-/* =================== 记账 =================== */
-let ledgerData = { members: [], expenses: [] };
-let selectedParticipants = new Set();
-
-async function loadLedger(){
-  const statusEl = document.getElementById('ledger-status');
-  statusEl.textContent = '加载中…';
+/* =================== 数据加载 =================== */
+async function loadAll(){
   try{
     const res = await fetch('/api/expenses');
     if(!res.ok) throw new Error('bad response');
-    ledgerData = await res.json();
-    statusEl.textContent = '';
+    state = await res.json();
+    renderInfo();
+    renderPrep();
     renderLedger();
   }catch(err){
-    statusEl.textContent = '记账功能还没连上后端（需要先在 Cloudflare 完成 KV 数据库绑定，见部署说明）。';
-  }
-}
-
-function renderLedger(){
-  // members
-  const memberRow = document.getElementById('memberRow');
-  memberRow.innerHTML = '';
-  ledgerData.members.forEach(m => {
-    const chip = document.createElement('div');
-    chip.className = 'member-chip';
-    chip.innerHTML = `<span>${m}</span><button data-name="${m}">✕</button>`;
-    chip.querySelector('button').addEventListener('click', () => removeMember(m));
-    memberRow.appendChild(chip);
-  });
-
-  // payer select
-  const payerSel = document.getElementById('expPayer');
-  payerSel.innerHTML = ledgerData.members.map(m => `<option value="${m}">${m}</option>`).join('');
-
-  // participants pills
-  const partWrap = document.getElementById('expParticipants');
-  partWrap.innerHTML = '';
-  if(selectedParticipants.size === 0) ledgerData.members.forEach(m => selectedParticipants.add(m));
-  ledgerData.members.forEach(m => {
-    const pill = document.createElement('div');
-    pill.className = 'check-pill' + (selectedParticipants.has(m) ? ' sel' : '');
-    pill.textContent = m;
-    pill.addEventListener('click', () => {
-      if(selectedParticipants.has(m)) selectedParticipants.delete(m); else selectedParticipants.add(m);
-      renderLedger();
+    console.error(err);
+    ['info-status','prep-status','ledger-status'].forEach(id => {
+      const el = document.getElementById(id);
+      if(el) el.textContent = '还没连上后端（需要先在 Cloudflare 完成 KV 数据库绑定）。';
     });
-    partWrap.appendChild(pill);
-  });
-
-  // expense list
-  const listEl = document.getElementById('expenseList');
-  listEl.innerHTML = '';
-  if(ledgerData.expenses.length === 0){
-    listEl.innerHTML = '<div class="ledger-note">还没有账目，添加第一笔吧。</div>';
   }
-  [...ledgerData.expenses].sort((a,b) => b.createdAt - a.createdAt).forEach(e => {
-    const div = document.createElement('div');
-    div.className = 'expense-item';
-    const each = (e.amount / e.participants.length).toFixed(2);
-    const owers = e.participants.filter(p => p !== e.payer);
-    const paidMap = e.paid || {};
-    const allSettled = owers.length > 0 && owers.every(p => paidMap[p]);
-
-    const trackerHtml = owers.length
-      ? `<div class="paid-tracker">${owers.map(p => {
-          const done = !!paidMap[p];
-          return `<div class="paid-pill${done ? ' done' : ''}" data-person="${p}"><span class="box"></span>${p} RM${each}</div>`;
-        }).join('')}</div>`
-      : '';
-
-    div.innerHTML = `
-      <div class="top-row">
-        <div>
-          <div>${e.desc}${allSettled ? '<span class="settled-tag" style="margin-left:8px;">已结清</span>' : ''}</div>
-          <div class="meta">${e.payer} 垫付 · ${e.participants.length}人平分 · 每人 RM${each}</div>
-          ${e.note ? `<div class="note">${e.note}</div>` : ''}
-        </div>
-        <div style="text-align:right; display:flex; align-items:center;">
-          <div class="amt">RM${e.amount.toFixed(2)}</div>
-          <button class="del-btn" title="删除">🗑</button>
-        </div>
-      </div>
-      ${trackerHtml}
-    `;
-    div.querySelector('.del-btn').addEventListener('click', () => deleteExpense(e.id));
-    div.querySelectorAll('.paid-pill').forEach(pill => {
-      pill.addEventListener('click', () => {
-        const person = pill.dataset.person;
-        const current = !!paidMap[person];
-        togglePaid(e.id, person, !current);
-      });
-    });
-    listEl.appendChild(div);
-  });
-
-  // total
-  const total = ledgerData.expenses.reduce((s,e) => s + e.amount, 0);
-  document.getElementById('ledgerTotal').textContent = 'RM ' + total.toFixed(2);
 }
 
 async function postAction(payload){
@@ -715,24 +462,416 @@ async function postAction(payload){
     body: JSON.stringify(payload)
   });
   if(!res.ok) throw new Error('request failed');
-  ledgerData = await res.json();
+  state = await res.json();
+  renderInfo();
+  renderPrep();
   renderLedger();
 }
 
-document.getElementById('addMemberForm').addEventListener('submit', async (e) => {
+/* =================== TAB 1: 旅行信息 =================== */
+function renderInfo(){
+  try{
+    const flightsEl = document.getElementById('flightsList');
+    flightsEl.innerHTML = '';
+    state.flights.forEach((f, idx) => {
+      const div = document.createElement('div');
+      div.className = 'card';
+      div.innerHTML = `
+        <div class="top-row">
+          <div>
+            <div>${peopleTagsHtml(f.people)}</div>
+            <h3>${esc(f.route)}</h3>
+            <div class="row">${esc(f.outbound)}</div>
+            ${f.inbound ? `<div class="row">${esc(f.inbound)}</div>` : ''}
+            ${f.note ? `<div class="note">${esc(f.note)}</div>` : ''}
+          </div>
+          <div class="icon-btns">
+            <button class="icon-btn" data-act="up">↑</button>
+            <button class="icon-btn" data-act="down">↓</button>
+            <button class="icon-btn" data-act="edit">✎</button>
+            <button class="icon-btn" data-act="del">🗑</button>
+          </div>
+        </div>
+      `;
+      div.querySelector('[data-act=up]').addEventListener('click', () => postAction({action:'moveFlight', id:f.id, dir:'up'}));
+      div.querySelector('[data-act=down]').addEventListener('click', () => postAction({action:'moveFlight', id:f.id, dir:'down'}));
+      div.querySelector('[data-act=del]').addEventListener('click', () => { if(confirm('删除这条机票？')) postAction({action:'deleteFlight', id:f.id}); });
+      div.querySelector('[data-act=edit]').addEventListener('click', () => openFlightForm(f));
+      flightsEl.appendChild(div);
+    });
+
+    const daysEl = document.getElementById('daysList');
+    daysEl.innerHTML = '';
+    state.days.forEach(d => {
+      const card = document.createElement('div');
+      card.className = 'day-card';
+      const itemsHtml = d.items.map(it => `
+        <div class="item-row" data-item="${it.id}">
+          <div class="t">${esc(it.time)}</div>
+          <div class="c">
+            ${esc(it.text)}${it.note ? `<div class="note">${esc(it.note)}</div>` : ''}
+          </div>
+          <div class="icon-btns">
+            <button class="icon-btn" data-act="up">↑</button>
+            <button class="icon-btn" data-act="down">↓</button>
+            <button class="icon-btn" data-act="del">🗑</button>
+          </div>
+        </div>
+      `).join('');
+      card.innerHTML = `
+        <div class="day-head">
+          <div>
+            <div class="d-date">${esc(d.date)}</div>
+            <h3>${esc(d.title)}</h3>
+            <div>${peopleTagsHtml(d.people)}</div>
+          </div>
+          <div class="icon-btns">
+            <button class="icon-btn" data-act="up">↑</button>
+            <button class="icon-btn" data-act="down">↓</button>
+            <button class="icon-btn" data-act="edit">✎</button>
+            <button class="icon-btn" data-act="del">🗑</button>
+          </div>
+        </div>
+        <div class="day-body">
+          ${itemsHtml}
+          <form class="editform" style="margin-top:10px;">
+            <div class="field"><input type="text" placeholder="时间（选填）" class="itTime"></div>
+            <div class="field"><input type="text" placeholder="内容" class="itText"></div>
+            <div class="field"><input type="text" placeholder="备注（选填）" class="itNote"></div>
+            <button class="btn small" type="button">+ 添加当天项目</button>
+          </form>
+        </div>
+      `;
+      card.querySelectorAll('.day-head .icon-btn')[0].addEventListener('click', () => postAction({action:'moveDay', id:d.id, dir:'up'}));
+      card.querySelectorAll('.day-head .icon-btn')[1].addEventListener('click', () => postAction({action:'moveDay', id:d.id, dir:'down'}));
+      card.querySelectorAll('.day-head .icon-btn')[2].addEventListener('click', () => openDayForm(d));
+      card.querySelectorAll('.day-head .icon-btn')[3].addEventListener('click', () => { if(confirm('删除这一天？')) postAction({action:'deleteDay', id:d.id}); });
+
+      card.querySelectorAll('.item-row').forEach(row => {
+        const itemId = row.dataset.item;
+        const btns = row.querySelectorAll('.icon-btn');
+        btns[0].addEventListener('click', () => postAction({action:'moveDayItem', dayId:d.id, id:itemId, dir:'up'}));
+        btns[1].addEventListener('click', () => postAction({action:'moveDayItem', dayId:d.id, id:itemId, dir:'down'}));
+        btns[2].addEventListener('click', () => { if(confirm('删除这一项？')) postAction({action:'deleteDayItem', dayId:d.id, id:itemId}); });
+      });
+
+      const addBtn = card.querySelector('.day-body .btn.small');
+      addBtn.addEventListener('click', () => {
+        const time = card.querySelector('.itTime').value.trim();
+        const text = card.querySelector('.itText').value.trim();
+        const note = card.querySelector('.itNote').value.trim();
+        if(!text) return;
+        postAction({action:'addDayItem', dayId:d.id, time, text, note});
+      });
+
+      daysEl.appendChild(card);
+    });
+  }catch(e){ console.error('renderInfo error', e); }
+}
+
+function openFlightForm(f){
+  editingFlightId = f ? f.id : null;
+  document.getElementById('flightForm').style.display = 'block';
+  document.getElementById('flRoute').value = f ? f.route : '';
+  document.getElementById('flOut').value = f ? f.outbound : '';
+  document.getElementById('flIn').value = f ? f.inbound : '';
+  document.getElementById('flNote').value = f ? f.note : '';
+  const sel = new Set(f ? f.people : []);
+  checkGridHtml('flPeople', sel);
+  document.getElementById('flightForm')._selected = sel;
+}
+document.getElementById('showAddFlight').addEventListener('click', () => openFlightForm(null));
+document.getElementById('flSaveBtn').addEventListener('click', () => {
+  const form = document.getElementById('flightForm');
+  const payload = {
+    route: document.getElementById('flRoute').value.trim(),
+    outbound: document.getElementById('flOut').value.trim(),
+    inbound: document.getElementById('flIn').value.trim(),
+    note: document.getElementById('flNote').value.trim(),
+    people: [...form._selected]
+  };
+  if(editingFlightId){ payload.action = 'updateFlight'; payload.id = editingFlightId; }
+  else { payload.action = 'addFlight'; }
+  postAction(payload);
+  form.style.display = 'none';
+});
+
+function openDayForm(d){
+  editingDayId = d ? d.id : null;
+  document.getElementById('dayForm').style.display = 'block';
+  document.getElementById('dayDate').value = d ? d.date : '';
+  document.getElementById('dayTitle').value = d ? d.title : '';
+  const sel = new Set(d ? d.people : [...state.members]);
+  checkGridHtml('dayPeople', sel);
+  document.getElementById('dayForm')._selected = sel;
+}
+document.getElementById('showAddDay').addEventListener('click', () => openDayForm(null));
+document.getElementById('daySaveBtn').addEventListener('click', () => {
+  const form = document.getElementById('dayForm');
+  const payload = {
+    date: document.getElementById('dayDate').value.trim(),
+    title: document.getElementById('dayTitle').value.trim(),
+    people: [...form._selected]
+  };
+  if(editingDayId){ payload.action = 'updateDay'; payload.id = editingDayId; }
+  else { payload.action = 'addDay'; }
+  postAction(payload);
+  form.style.display = 'none';
+});
+
+/* =================== TAB 2: 准备清单 =================== */
+const COLOR_OPTIONS = ['cream','gold','sage','sky','rose'];
+
+function renderPrepSection(section, containerId){
+  const el = document.getElementById(containerId);
+  el.innerHTML = '';
+  (state.prep[section] || []).forEach(cat => {
+    const div = document.createElement('div');
+    div.className = 'prep-cat';
+    const itemsHtml = cat.items.map(it => {
+      const checks = it.checks || {};
+      const chkHtml = state.members.map(m => {
+        const done = !!checks[m];
+        return `<div class="member-check${done?' done':''}" data-member="${esc(m)}">${esc(m)}</div>`;
+      }).join('');
+      return `
+        <div class="prep-item" data-item="${it.id}">
+          <div class="top-row">
+            <div>
+              <div class="txt">${esc(it.text)}</div>
+              ${it.note ? `<div class="note">${esc(it.note)}</div>` : ''}
+            </div>
+            <button class="icon-btn" data-act="delitem">🗑</button>
+          </div>
+          <div class="member-check-grid">${chkHtml}</div>
+        </div>
+      `;
+    }).join('');
+    div.innerHTML = `
+      <div class="cat-head">
+        <div><span class="tag-chip clr-${cat.color || 'cream'}">${esc(cat.name)}</span></div>
+        <div class="icon-btns">
+          <button class="icon-btn" data-act="editcat">✎</button>
+          <button class="icon-btn" data-act="delcat">🗑</button>
+        </div>
+      </div>
+      ${itemsHtml}
+      <form class="editform" style="margin-top:10px;">
+        <div class="field"><input type="text" placeholder="新增物品" class="newItemText"></div>
+        <div class="field"><input type="text" placeholder="备注（选填）" class="newItemNote"></div>
+        <button class="btn small" type="button">+ 添加</button>
+      </form>
+    `;
+    div.querySelector('[data-act=delcat]').addEventListener('click', () => {
+      if(confirm('删除这个分类（连同里面的物品）？')) postAction({action:'deletePrepCategory', section, id:cat.id});
+    });
+    div.querySelector('[data-act=editcat]').addEventListener('click', () => openCatForm(section, cat));
+    div.querySelectorAll('.prep-item').forEach(row => {
+      const itemId = row.dataset.item;
+      row.querySelector('[data-act=delitem]').addEventListener('click', () => {
+        if(confirm('删除这一项？')) postAction({action:'deletePrepItem', section, categoryId:cat.id, id:itemId});
+      });
+      row.querySelectorAll('.member-check').forEach(chk => {
+        chk.addEventListener('click', () => {
+          const member = chk.dataset.member;
+          const done = chk.classList.contains('done');
+          postAction({action:'togglePrepCheck', section, categoryId:cat.id, id:itemId, member, value: !done});
+        });
+      });
+    });
+    const addBtn = div.querySelector('.editform .btn.small');
+    addBtn.addEventListener('click', () => {
+      const text = div.querySelector('.newItemText').value.trim();
+      const note = div.querySelector('.newItemNote').value.trim();
+      if(!text) return;
+      postAction({action:'addPrepItem', section, categoryId:cat.id, text, note});
+    });
+    el.appendChild(div);
+  });
+}
+
+function openCatForm(section, cat){
+  editingCatSection = section;
+  editingCatId = cat ? cat.id : null;
+  document.getElementById('catForm').style.display = 'block';
+  document.getElementById('catName').value = cat ? cat.name : '';
+  const colorEl = document.getElementById('catColor');
+  colorEl.innerHTML = '';
+  const chosen = { v: cat ? (cat.color || 'cream') : 'cream' };
+  COLOR_OPTIONS.forEach(c => {
+    const pill = document.createElement('div');
+    pill.className = 'check-pill' + (chosen.v === c ? ' sel' : '');
+    pill.textContent = c;
+    pill.addEventListener('click', () => {
+      colorEl.querySelectorAll('.check-pill').forEach(p => p.classList.remove('sel'));
+      pill.classList.add('sel');
+      chosen.v = c;
+    });
+    colorEl.appendChild(pill);
+  });
+  document.getElementById('catForm')._chosen = chosen;
+}
+document.querySelectorAll('#tab-prep .add-toggle').forEach(btn => {
+  btn.addEventListener('click', () => openCatForm(btn.dataset.section, null));
+});
+document.getElementById('catSaveBtn').addEventListener('click', () => {
+  const form = document.getElementById('catForm');
+  const name = document.getElementById('catName').value.trim();
+  if(!name) return;
+  const color = form._chosen.v;
+  if(editingCatId) postAction({action:'updatePrepCategory', section:editingCatSection, id:editingCatId, name, color});
+  else postAction({action:'addPrepCategory', section:editingCatSection, name, color});
+  form.style.display = 'none';
+});
+
+function renderPrep(){
+  try{
+    renderPrepSection('before', 'prepBefore');
+    renderPrepSection('climb', 'prepClimb');
+
+    const todoEl = document.getElementById('todoList');
+    todoEl.innerHTML = '';
+    state.todos.forEach(t => {
+      const row = document.createElement('div');
+      row.className = 'todo-row';
+      row.innerHTML = `
+        <div class="left">
+          <div class="todo-check${t.done?' done':''}"></div>
+          <div class="txt${t.done?' done':''}">${esc(t.text)}</div>
+        </div>
+        <button class="del-btn">🗑</button>
+      `;
+      row.querySelector('.todo-check').addEventListener('click', () => postAction({action:'toggleTodo', id:t.id, done: !t.done}));
+      row.querySelector('.del-btn').addEventListener('click', () => postAction({action:'deleteTodo', id:t.id}));
+      todoEl.appendChild(row);
+    });
+
+    const tipEl = document.getElementById('tipList');
+    tipEl.innerHTML = '';
+    state.tips.forEach(t => {
+      const row = document.createElement('div');
+      row.className = 'tip-row';
+      row.innerHTML = `<div class="txt">${esc(t.text)}</div><button class="del-btn">🗑</button>`;
+      row.querySelector('.del-btn').addEventListener('click', () => postAction({action:'deleteTip', id:t.id}));
+      tipEl.appendChild(row);
+    });
+  }catch(e){ console.error('renderPrep error', e); }
+}
+
+document.getElementById('todoForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const input = document.getElementById('todoText');
+  const text = input.value.trim();
+  if(!text) return;
+  postAction({action:'addTodo', text});
+  input.value = '';
+});
+document.getElementById('tipForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const input = document.getElementById('tipText');
+  const text = input.value.trim();
+  if(!text) return;
+  postAction({action:'addTip', text});
+  input.value = '';
+});
+
+/* =================== TAB 3: 记账 =================== */
+function renderLedger(){
+  try{
+    const memberRow = document.getElementById('memberRow');
+    memberRow.innerHTML = '';
+    state.members.forEach(m => {
+      const chip = document.createElement('div');
+      chip.className = 'member-chip';
+      chip.innerHTML = `<span>${esc(m)}</span><button data-name="${esc(m)}">✕</button>`;
+      chip.querySelector('button').addEventListener('click', () => {
+        if(confirm(`把 ${m} 从成员名单移除？`)) postAction({action:'removeMember', name:m});
+      });
+      memberRow.appendChild(chip);
+    });
+
+    const payerSel = document.getElementById('expPayer');
+    payerSel.innerHTML = state.members.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join('');
+
+    if(selectedParticipants.size === 0) state.members.forEach(m => selectedParticipants.add(m));
+    checkGridHtml('expParticipants', selectedParticipants);
+    renderCustomAmounts();
+
+    const listEl = document.getElementById('expenseList');
+    listEl.innerHTML = '';
+    if(state.expenses.length === 0){
+      listEl.innerHTML = '<div class="plain-note">还没有账目，添加第一笔吧。</div>';
+    }
+    [...state.expenses].sort((a,b) => b.createdAt - a.createdAt).forEach(e => {
+      const div = document.createElement('div');
+      div.className = 'expense-item';
+      const owers = e.participants.filter(p => p !== e.payer);
+      const paidMap = e.paid || {};
+      const allSettled = owers.length > 0 && owers.every(p => paidMap[p]);
+      const shareOf = (p) => e.splitMode === 'custom' && e.customAmounts ? (e.customAmounts[p] || 0) : (e.amount / e.participants.length);
+
+      const trackerHtml = owers.length
+        ? `<div class="paid-tracker">${owers.map(p => {
+            const done = !!paidMap[p];
+            return `<div class="paid-pill${done?' done':''}" data-person="${esc(p)}">${done?'✓ ':''}${esc(p)} RM${shareOf(p).toFixed(2)}</div>`;
+          }).join('')}</div>`
+        : '';
+
+      div.innerHTML = `
+        <div class="top-row">
+          <div>
+            <div>${esc(e.desc)}${allSettled ? '<span class="settled-tag" style="margin-left:8px;">已结清</span>' : ''}</div>
+            <div class="meta">${esc(e.payer)} 垫付 · ${e.splitMode === 'custom' ? '自定义金额' : e.participants.length + '人平分'}</div>
+            ${e.note ? `<div class="note">${esc(e.note)}</div>` : ''}
+          </div>
+          <div style="text-align:right; display:flex; align-items:center;">
+            <div class="amt">RM${e.amount.toFixed(2)}</div>
+            <button class="del-btn" title="删除">🗑</button>
+          </div>
+        </div>
+        ${trackerHtml}
+      `;
+      div.querySelector('.del-btn').addEventListener('click', () => postAction({action:'deleteExpense', id:e.id}));
+      div.querySelectorAll('.paid-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+          const person = pill.dataset.person;
+          postAction({action:'setPaid', id:e.id, person, paid: !paidMap[person]});
+        });
+      });
+      listEl.appendChild(div);
+    });
+
+    const total = state.expenses.reduce((s,e) => s + e.amount, 0);
+    document.getElementById('ledgerTotal').textContent = 'RM ' + total.toFixed(2);
+  }catch(e){ console.error('renderLedger error', e); }
+}
+
+function renderCustomAmounts(){
+  const wrap = document.getElementById('customAmountsWrap');
+  if(splitMode !== 'custom'){ wrap.style.display = 'none'; wrap.innerHTML = ''; return; }
+  wrap.style.display = 'block';
+  wrap.innerHTML = '<label>每人金额</label>';
+  [...selectedParticipants].forEach(p => {
+    const row = document.createElement('div');
+    row.className = 'custom-amt-row';
+    row.innerHTML = `<span>${esc(p)}</span><input type="number" step="0.01" min="0" class="custAmt" data-name="${esc(p)}" placeholder="0.00">`;
+    wrap.appendChild(row);
+  });
+}
+
+document.getElementById('splitEvenBtn').addEventListener('click', () => { splitMode = 'even'; renderCustomAmounts(); });
+document.getElementById('splitCustomBtn').addEventListener('click', () => { splitMode = 'custom'; renderCustomAmounts(); });
+
+document.getElementById('addMemberForm').addEventListener('submit', (e) => {
   e.preventDefault();
   const input = document.getElementById('newMemberName');
   const name = input.value.trim();
   if(!name) return;
-  await postAction({ action:'addMember', name });
+  postAction({action:'addMember', name});
   input.value = '';
 });
 
-function removeMember(name){
-  if(confirm(`把 ${name} 从成员名单移除？`)) postAction({ action:'removeMember', name });
-}
-
-document.getElementById('addExpenseForm').addEventListener('submit', async (e) => {
+document.getElementById('addExpenseForm').addEventListener('submit', (e) => {
   e.preventDefault();
   const desc = document.getElementById('expDesc').value.trim();
   const note = document.getElementById('expNote').value.trim();
@@ -740,19 +879,32 @@ document.getElementById('addExpenseForm').addEventListener('submit', async (e) =
   const payer = document.getElementById('expPayer').value;
   const participants = [...selectedParticipants];
   if(!desc || !amount || !payer || participants.length === 0) return;
-  await postAction({ action:'addExpense', desc, note, amount, payer, participants });
+  const payload = {action:'addExpense', desc, note, amount, payer, participants, splitMode};
+  if(splitMode === 'custom'){
+    const customAmounts = {};
+    document.querySelectorAll('.custAmt').forEach(inp => { customAmounts[inp.dataset.name] = parseFloat(inp.value) || 0; });
+    payload.customAmounts = customAmounts;
+  }
+  postAction(payload);
   document.getElementById('expDesc').value = '';
   document.getElementById('expNote').value = '';
   document.getElementById('expAmount').value = '';
 });
 
-function deleteExpense(id){
-  postAction({ action:'deleteExpense', id });
-}
+/* =================== Tabs =================== */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const tab = btn.dataset.tab;
+    document.getElementById('tab-info').style.display = tab === 'info' ? '' : 'none';
+    document.getElementById('tab-prep').style.display = tab === 'prep' ? '' : 'none';
+    document.getElementById('tab-ledger').style.display = tab === 'ledger' ? '' : 'none';
+    loadAll();
+  });
+});
 
-function togglePaid(id, person, paid){
-  postAction({ action:'setPaid', id, person, paid });
-}
+loadAll();
 </script>
 </body>
 </html>
