@@ -283,13 +283,19 @@ async function handlePost(request, env) {
         id: uid(),
         time: body.time || "",
         text: body.text || "",
+        map: body.map || "",
         note: body.note || "",
       });
   } else if (a === "updateDayItem") {
     const d = data.days.find((x) => x.id === body.dayId);
     const it = d && d.items.find((x) => x.id === body.id);
     if (it)
-      Object.assign(it, { time: body.time, text: body.text, note: body.note });
+      Object.assign(it, {
+        time: body.time,
+        text: body.text,
+        map: body.map,
+        note: body.note,
+      });
   } else if (a === "deleteDayItem") {
     const d = data.days.find((x) => x.id === body.dayId);
     if (d) d.items = d.items.filter((x) => x.id !== body.id);
