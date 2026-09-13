@@ -1,0 +1,12 @@
+{
+  "name": "sabah-trip",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-09-11",
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS"
+  },
+  "kv_namespaces": [
+    { "binding": "TRIP_KV", "id": "9d12971df36f4053b1487d4c6052d48d" }
+  ]
+}
