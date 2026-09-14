@@ -278,7 +278,7 @@
     <form class="editform" id="wishForm" style="display:none;">
       <div class="field"><label>地点</label><input type="text" id="wishName" placeholder="例如：丹绒亚路日落海滩"></div>
       <div class="field"><label>地址 / Google地图链接（选填）</label><input type="text" id="wishAddress" placeholder="选填"></div>
-      <div class="field"><label>备注</label><input type="text" id="wishNote" placeholder="例如：小红书 @xxx，适合傍晚去"></div>
+      <div class="field"><label>备注</label><input type="text" id="wishNote" placeholder="文字，或直接贴小红书/网页链接"></div>
       <button class="btn" type="button" id="wishSaveBtn">保存</button>
     </form>
 
@@ -565,7 +565,13 @@ function renderInfo(){
           <div class="icon-btns">
             <button class="icon-btn" data-act="up">↑</button>
             <button class="icon-btn" data-act="down">↓</button>
-            <button class="icon-btn" data-act="del">🗑</button>
+            <div class="more-menu">
+              <button class="icon-btn" data-act="more">⋮</button>
+              <div class="menu-dropdown">
+                <button data-act="edit">✎ 编辑</button>
+                <button data-act="del">🗑 删除</button>
+              </div>
+            </div>
           </div>
         </div>
       `).join('');
@@ -590,12 +596,13 @@ function renderInfo(){
         </div>
         <div class="day-body">
           ${itemsHtml}
-          <form class="editform" style="margin-top:10px;">
+          <form class="editform itemForm" style="margin-top:10px;">
             <div class="field"><input type="text" placeholder="时间（选填）" class="itTime"></div>
             <div class="field"><input type="text" placeholder="内容" class="itText"></div>
             <div class="field"><input type="text" placeholder="地点 / Google地图链接（选填）" class="itMap"></div>
             <div class="field"><input type="text" placeholder="备注（选填）" class="itNote"></div>
-            <button class="btn small" type="button">+ 添加当天项目</button>
+            <button class="btn small itemSaveBtn" type="button">+ 添加当天项目</button>
+            <button class="btn secondary small itemCancelBtn" type="button" style="display:none; margin-top:6px;">取消编辑</button>
           </form>
         </div>
       `;
@@ -606,28 +613,58 @@ function renderInfo(){
       const headBtns = card.querySelectorAll('.day-head > .icon-btns > .icon-btn');
       headBtns[0].addEventListener('click', () => postAction({action:'moveDay', id:d.id, dir:'up'}));
       headBtns[1].addEventListener('click', () => postAction({action:'moveDay', id:d.id, dir:'down'}));
-      const moreMenu = card.querySelector('.day-head .more-menu');
-      moreMenu.querySelector('[data-act=more]').addEventListener('click', () => moreMenu.classList.toggle('open'));
-      moreMenu.querySelector('[data-act=edit]').addEventListener('click', () => openDayForm(d));
-      moreMenu.querySelector('[data-act=del]').addEventListener('click', () => { if(confirm('删除这一天？')) postAction({action:'deleteDay', id:d.id}); });
+      const dayMoreMenu = card.querySelector('.day-head .more-menu');
+      dayMoreMenu.querySelector('[data-act=more]').addEventListener('click', () => dayMoreMenu.classList.toggle('open'));
+      dayMoreMenu.querySelector('[data-act=edit]').addEventListener('click', () => openDayForm(d));
+      dayMoreMenu.querySelector('[data-act=del]').addEventListener('click', () => { if(confirm('删除这一天？')) postAction({action:'deleteDay', id:d.id}); });
+
+      const itemForm = card.querySelector('.itemForm');
+      const saveBtn = itemForm.querySelector('.itemSaveBtn');
+      const cancelBtn = itemForm.querySelector('.itemCancelBtn');
+      let editingItemId = null;
+
+      function resetItemForm(){
+        editingItemId = null;
+        itemForm.querySelector('.itTime').value = '';
+        itemForm.querySelector('.itText').value = '';
+        itemForm.querySelector('.itMap').value = '';
+        itemForm.querySelector('.itNote').value = '';
+        saveBtn.textContent = '+ 添加当天项目';
+        cancelBtn.style.display = 'none';
+      }
 
       card.querySelectorAll('.item-row').forEach(row => {
         const itemId = row.dataset.item;
+        const item = d.items.find(x => x.id === itemId);
         const btns = row.querySelectorAll('.icon-btn');
         btns[0].addEventListener('click', () => postAction({action:'moveDayItem', dayId:d.id, id:itemId, dir:'up'}));
         btns[1].addEventListener('click', () => postAction({action:'moveDayItem', dayId:d.id, id:itemId, dir:'down'}));
-        btns[2].addEventListener('click', () => { if(confirm('删除这一项？')) postAction({action:'deleteDayItem', dayId:d.id, id:itemId}); });
+        const rowMenu = row.querySelector('.more-menu');
+        rowMenu.querySelector('[data-act=more]').addEventListener('click', () => rowMenu.classList.toggle('open'));
+        rowMenu.querySelector('[data-act=del]').addEventListener('click', () => { if(confirm('删除这一项？')) postAction({action:'deleteDayItem', dayId:d.id, id:itemId}); });
+        rowMenu.querySelector('[data-act=edit]').addEventListener('click', () => {
+          editingItemId = itemId;
+          itemForm.querySelector('.itTime').value = item.time || '';
+          itemForm.querySelector('.itText').value = item.text || '';
+          itemForm.querySelector('.itMap').value = item.map || '';
+          itemForm.querySelector('.itNote').value = item.note || '';
+          saveBtn.textContent = '保存修改';
+          cancelBtn.style.display = 'block';
+          itemForm.scrollIntoView({behavior:'smooth', block:'center'});
+        });
       });
 
-      const addBtn = card.querySelector('.day-body .btn.small');
-      addBtn.addEventListener('click', () => {
-        const time = card.querySelector('.itTime').value.trim();
-        const text = card.querySelector('.itText').value.trim();
-        const map = card.querySelector('.itMap').value.trim();
-        const note = card.querySelector('.itNote').value.trim();
+      saveBtn.addEventListener('click', () => {
+        const time = itemForm.querySelector('.itTime').value.trim();
+        const text = itemForm.querySelector('.itText').value.trim();
+        const map = itemForm.querySelector('.itMap').value.trim();
+        const note = itemForm.querySelector('.itNote').value.trim();
         if(!text) return;
-        postAction({action:'addDayItem', dayId:d.id, time, text, map, note});
+        if(editingItemId) postAction({action:'updateDayItem', dayId:d.id, id:editingItemId, time, text, map, note});
+        else postAction({action:'addDayItem', dayId:d.id, time, text, map, note});
+        resetItemForm();
       });
+      cancelBtn.addEventListener('click', resetItemForm);
 
       daysEl.appendChild(card);
     });
@@ -650,7 +687,7 @@ function renderWishlist(){
         <div>
           <h3>${esc(w.name)}</h3>
           ${w.address ? `<div class="row"><a class="maplink" href="${gmapsLink(w.address)}" target="_blank">📍 ${esc(w.address)}</a></div>` : ''}
-          ${w.note ? `<div class="note">${esc(w.note)}</div>` : ''}
+          ${w.note ? `<div class="note">${w.note.trim().startsWith('http') ? `<a class="maplink" href="${esc(w.note.trim())}" target="_blank">${esc(w.note)}</a>` : esc(w.note)}</div>` : ''}
         </div>
         <div class="icon-btns">
           <button class="icon-btn" data-act="up">↑</button>
@@ -677,10 +714,12 @@ function renderWishlist(){
 
 function openWishForm(w){
   editingWishId = w ? w.id : null;
-  document.getElementById('wishForm').style.display = 'block';
+  const form = document.getElementById('wishForm');
+  form.style.display = 'block';
   document.getElementById('wishName').value = w ? w.name : '';
   document.getElementById('wishAddress').value = w ? w.address : '';
   document.getElementById('wishNote').value = w ? w.note : '';
+  form.scrollIntoView({behavior:'smooth', block:'center'});
 }
 document.getElementById('showAddWish').addEventListener('click', () => openWishForm(null));
 document.getElementById('wishSaveBtn').addEventListener('click', () => {
@@ -698,14 +737,16 @@ document.getElementById('wishSaveBtn').addEventListener('click', () => {
 
 function openFlightForm(f){
   editingFlightId = f ? f.id : null;
-  document.getElementById('flightForm').style.display = 'block';
+  const form = document.getElementById('flightForm');
+  form.style.display = 'block';
   document.getElementById('flRoute').value = f ? f.route : '';
   document.getElementById('flOut').value = f ? f.outbound : '';
   document.getElementById('flIn').value = f ? f.inbound : '';
   document.getElementById('flNote').value = f ? f.note : '';
   const sel = new Set(f ? f.people : []);
   checkGridHtml('flPeople', sel);
-  document.getElementById('flightForm')._selected = sel;
+  form._selected = sel;
+  form.scrollIntoView({behavior:'smooth', block:'center'});
 }
 document.getElementById('showAddFlight').addEventListener('click', () => openFlightForm(null));
 document.getElementById('flSaveBtn').addEventListener('click', () => {
@@ -725,12 +766,14 @@ document.getElementById('flSaveBtn').addEventListener('click', () => {
 
 function openDayForm(d){
   editingDayId = d ? d.id : null;
-  document.getElementById('dayForm').style.display = 'block';
+  const form = document.getElementById('dayForm');
+  form.style.display = 'block';
   document.getElementById('dayDate').value = d ? d.date : '';
   document.getElementById('dayTitle').value = d ? d.title : '';
   const sel = new Set(d ? d.people : [...state.members]);
   checkGridHtml('dayPeople', sel);
-  document.getElementById('dayForm')._selected = sel;
+  form._selected = sel;
+  form.scrollIntoView({behavior:'smooth', block:'center'});
 }
 document.getElementById('showAddDay').addEventListener('click', () => openDayForm(null));
 document.getElementById('daySaveBtn').addEventListener('click', () => {
@@ -822,7 +865,8 @@ function renderPrepSection(section, containerId){
 function openCatForm(section, cat){
   editingCatSection = section;
   editingCatId = cat ? cat.id : null;
-  document.getElementById('catForm').style.display = 'block';
+  const form = document.getElementById('catForm');
+  form.style.display = 'block';
   document.getElementById('catName').value = cat ? cat.name : '';
   const colorEl = document.getElementById('catColor');
   colorEl.innerHTML = '';
@@ -838,7 +882,8 @@ function openCatForm(section, cat){
     });
     colorEl.appendChild(pill);
   });
-  document.getElementById('catForm')._chosen = chosen;
+  form._chosen = chosen;
+  form.scrollIntoView({behavior:'smooth', block:'center'});
 }
 document.querySelectorAll('#tab-prep .add-toggle').forEach(btn => {
   btn.addEventListener('click', () => openCatForm(btn.dataset.section, null));
