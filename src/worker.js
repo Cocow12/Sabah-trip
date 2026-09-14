@@ -127,6 +127,8 @@ const DEFAULT_DAYS = [
   },
 ];
 
+const DEFAULT_WISHLIST = [];
+
 const DEFAULT_PREP = {
   before: [
     { id: "pb1", name: "行李 - 基本日用品", color: "cream", items: [] },
@@ -159,6 +161,7 @@ async function loadData(env) {
   const data = raw ? JSON.parse(raw) : {};
   if (!Array.isArray(data.members)) data.members = DEFAULT_MEMBERS.slice();
   if (!Array.isArray(data.flights)) data.flights = DEFAULT_FLIGHTS;
+  if (!Array.isArray(data.wishlist)) data.wishlist = DEFAULT_WISHLIST;
   if (!Array.isArray(data.days)) data.days = DEFAULT_DAYS;
   if (!data.prep) data.prep = DEFAULT_PREP;
   if (!Array.isArray(data.prep.before)) data.prep.before = DEFAULT_PREP.before;
@@ -253,6 +256,28 @@ async function handlePost(request, env) {
     data.flights = data.flights.filter((x) => x.id !== body.id);
   } else if (a === "moveFlight") {
     moveItem(data.flights, body.id, body.dir);
+  }
+
+  // ---------- wishlist ----------
+  else if (a === "addWishlist") {
+    data.wishlist.push({
+      id: uid(),
+      name: body.name || "",
+      address: body.address || "",
+      note: body.note || "",
+    });
+  } else if (a === "updateWishlist") {
+    const w = data.wishlist.find((x) => x.id === body.id);
+    if (w)
+      Object.assign(w, {
+        name: body.name,
+        address: body.address,
+        note: body.note,
+      });
+  } else if (a === "deleteWishlist") {
+    data.wishlist = data.wishlist.filter((x) => x.id !== body.id);
+  } else if (a === "moveWishlist") {
+    moveItem(data.wishlist, body.id, body.dir);
   }
 
   // ---------- days ----------
