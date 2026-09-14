@@ -271,6 +271,17 @@
       <button class="btn" type="button" id="flSaveBtn">保存</button>
     </form>
 
+    <h2 class="section-title">大家想去的地方</h2>
+    <div class="plain-note">先把想去的地方丢进来，时间排得下再安排进逐日行程。</div>
+    <div id="wishlistList"></div>
+    <button class="btn secondary add-toggle" id="showAddWish">+ 添加地点</button>
+    <form class="editform" id="wishForm" style="display:none;">
+      <div class="field"><label>地点</label><input type="text" id="wishName" placeholder="例如：丹绒亚路日落海滩"></div>
+      <div class="field"><label>地址 / Google地图链接（选填）</label><input type="text" id="wishAddress" placeholder="选填"></div>
+      <div class="field"><label>备注</label><input type="text" id="wishNote" placeholder="例如：小红书 @xxx，适合傍晚去"></div>
+      <button class="btn" type="button" id="wishSaveBtn">保存</button>
+    </form>
+
     <h2 class="section-title">逐日行程</h2>
     <div id="daysList"></div>
     <button class="btn secondary add-toggle" id="showAddDay">+ 新增一天</button>
@@ -367,10 +378,11 @@
 
 <script>
 /* =================== 全局状态 =================== */
-let state = { members: [], flights: [], days: [], prep: { before: [], climb: [] }, todos: [], tips: [], expenses: [] };
+let state = { members: [], flights: [], wishlist: [], days: [], prep: { before: [], climb: [] }, todos: [], tips: [], expenses: [] };
 let selectedParticipants = new Set();
 let splitMode = 'even';
 let editingFlightId = null;
+let openDayIds = null;
 let editingDayId = null;
 let editingCatSection = null;
 let editingCatId = null;
@@ -537,9 +549,13 @@ function renderInfo(){
 
     const daysEl = document.getElementById('daysList');
     daysEl.innerHTML = '';
+    if(openDayIds === null){
+      openDayIds = new Set();
+      if(state.days.length) openDayIds.add(state.days[0].id);
+    }
     state.days.forEach((d, dayIdx) => {
       const card = document.createElement('div');
-      card.className = 'day-card' + (dayIdx === 0 ? ' open' : '');
+      card.className = 'day-card' + (openDayIds.has(d.id) ? ' open' : '');
       const itemsHtml = d.items.map(it => `
         <div class="item-row" data-item="${it.id}">
           <div class="t">${esc(it.time)}</div>
@@ -583,7 +599,10 @@ function renderInfo(){
           </form>
         </div>
       `;
-      card.querySelector('.day-head-main').addEventListener('click', () => card.classList.toggle('open'));
+      card.querySelector('.day-head-main').addEventListener('click', () => {
+        if(openDayIds.has(d.id)) openDayIds.delete(d.id); else openDayIds.add(d.id);
+        card.classList.toggle('open');
+      });
       const headBtns = card.querySelectorAll('.day-head > .icon-btns > .icon-btn');
       headBtns[0].addEventListener('click', () => postAction({action:'moveDay', id:d.id, dir:'up'}));
       headBtns[1].addEventListener('click', () => postAction({action:'moveDay', id:d.id, dir:'down'}));
@@ -613,7 +632,69 @@ function renderInfo(){
       daysEl.appendChild(card);
     });
   }catch(e){ console.error('renderInfo error', e); }
+  try{ renderWishlist(); }catch(e){ console.error('renderWishlist error', e); }
 }
+
+let editingWishId = null;
+function renderWishlist(){
+  const el = document.getElementById('wishlistList');
+  el.innerHTML = '';
+  if(state.wishlist.length === 0){
+    el.innerHTML = '<div class="note" style="margin-bottom:10px;">还没有人加地点，想到什么先丢进来。</div>';
+  }
+  state.wishlist.forEach(w => {
+    const div = document.createElement('div');
+    div.className = 'card';
+    div.innerHTML = `
+      <div class="top-row">
+        <div>
+          <h3>${esc(w.name)}</h3>
+          ${w.address ? `<div class="row"><a class="maplink" href="${gmapsLink(w.address)}" target="_blank">📍 ${esc(w.address)}</a></div>` : ''}
+          ${w.note ? `<div class="note">${esc(w.note)}</div>` : ''}
+        </div>
+        <div class="icon-btns">
+          <button class="icon-btn" data-act="up">↑</button>
+          <button class="icon-btn" data-act="down">↓</button>
+          <div class="more-menu">
+            <button class="icon-btn" data-act="more">⋮</button>
+            <div class="menu-dropdown">
+              <button data-act="edit">✎ 编辑</button>
+              <button data-act="del">🗑 删除</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    div.querySelector('[data-act=up]').addEventListener('click', () => postAction({action:'moveWishlist', id:w.id, dir:'up'}));
+    div.querySelector('[data-act=down]').addEventListener('click', () => postAction({action:'moveWishlist', id:w.id, dir:'down'}));
+    const moreMenu = div.querySelector('.more-menu');
+    moreMenu.querySelector('[data-act=more]').addEventListener('click', () => moreMenu.classList.toggle('open'));
+    moreMenu.querySelector('[data-act=edit]').addEventListener('click', () => openWishForm(w));
+    moreMenu.querySelector('[data-act=del]').addEventListener('click', () => { if(confirm('删除这个地点？')) postAction({action:'deleteWishlist', id:w.id}); });
+    el.appendChild(div);
+  });
+}
+
+function openWishForm(w){
+  editingWishId = w ? w.id : null;
+  document.getElementById('wishForm').style.display = 'block';
+  document.getElementById('wishName').value = w ? w.name : '';
+  document.getElementById('wishAddress').value = w ? w.address : '';
+  document.getElementById('wishNote').value = w ? w.note : '';
+}
+document.getElementById('showAddWish').addEventListener('click', () => openWishForm(null));
+document.getElementById('wishSaveBtn').addEventListener('click', () => {
+  const payload = {
+    name: document.getElementById('wishName').value.trim(),
+    address: document.getElementById('wishAddress').value.trim(),
+    note: document.getElementById('wishNote').value.trim()
+  };
+  if(!payload.name) return;
+  if(editingWishId){ payload.action = 'updateWishlist'; payload.id = editingWishId; }
+  else { payload.action = 'addWishlist'; }
+  postAction(payload);
+  document.getElementById('wishForm').style.display = 'none';
+});
 
 function openFlightForm(f){
   editingFlightId = f ? f.id : null;
